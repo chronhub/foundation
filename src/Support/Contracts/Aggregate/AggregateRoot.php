@@ -1,0 +1,31 @@
+<?php
+
+namespace Chronhub\Foundation\Support\Contracts\Aggregate;
+
+use Chronhub\Foundation\Message\DomainEvent;
+use Generator;
+
+interface AggregateRoot
+{
+    /**
+     * @param AggregateId $aggregateId
+     * @param Generator   $events
+     * @return AggregateRoot|null
+     */
+    public static function reconstituteFromEvents(AggregateId $aggregateId, Generator $events): ?AggregateRoot;
+
+    /**
+     * @return DomainEvent[]
+     */
+    public function releaseEvents(): array;
+
+    /**
+     * @return AggregateId
+     */
+    public function aggregateId(): AggregateId;
+
+    /**
+     * @return int
+     */
+    public function version(): int;
+}

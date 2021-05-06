@@ -2,9 +2,7 @@
 
 namespace Chronhub\Foundation\Support\Contracts\Message;
 
-use JsonSerializable;
-
-interface Content extends JsonSerializable
+interface Content
 {
     public static function fromContent(array $content): Content;
 

@@ -4,13 +4,11 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Message;
 
 use Chronhub\Foundation\Message\Headers\HasHeaders;
-use Chronhub\Foundation\Message\Headers\Headers;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 
 abstract class Domain implements Messaging
 {
-    use HasHeaders;
+     use HasHeaders;
 
     final protected function __construct(protected array $content)
     {
@@ -26,29 +24,20 @@ abstract class Domain implements Messaging
         return new static($content);
     }
 
-    // do we keep this ?
-    public function jsonSerialize(): array
-    {
-        return [
-            'headers' => $this->headers->jsonSerialize(),
-            'content' => $this->toContent(),
-        ];
-    }
-
-    public function withHeader(Header $header): Domain
+    public function withHeader(string $header, mixed $value): Domain
     {
         $domain = clone $this;
 
-        $domain->headers[$header->name()] = $header;
+        $domain->headers[$header] = $value;
 
         return $domain;
     }
 
-    public function withHeaders(Header ...$headers): Domain
+    public function withHeaders(array $headers): Domain
     {
         $domain = clone $this;
 
-        $domain->headers = new Headers(...$headers);
+        $domain->headers = $headers;
 
         return $domain;
     }

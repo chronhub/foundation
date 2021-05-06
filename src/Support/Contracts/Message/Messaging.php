@@ -3,7 +3,6 @@
 namespace Chronhub\Foundation\Support\Contracts\Message;
 
 use Chronhub\Foundation\Message\Domain;
-use Chronhub\Foundation\Message\Headers\Headers;
 
 interface Messaging extends Content
 {
@@ -12,19 +11,15 @@ interface Messaging extends Content
     public const EVENT = 'event';
     public const TYPES = [self::COMMAND, self::QUERY, self::EVENT];
 
-    public function withHeaders(Header ...$headers): Domain;
+    public function withHeaders(array $headers): Domain;
 
-    public function withHeader(Header $header): Domain;
+    public function withHeader(string $header, mixed $value): Domain;
 
     public function has(string $header): bool;
 
-    public function header(string $header): ?Header;
+    public function header(string $header): mixed;
 
-    public function headers(): Headers;
+    public function headers(): array;
 
     public function type(): string;
-
-    public function eventId(): ?HeadingId;
-
-    public function eventTime(): ?HeadingTime;
 }
