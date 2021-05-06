@@ -21,6 +21,6 @@ final class GenericMessageFactory implements MessageFactory
             $event = $this->serializer->unserializeContent($event)->current();
         }
 
-        return $event instanceof Message ? $event : new Message($event);
+        return $event instanceof Message ? $event : new Message($event, []);
     }
 }

@@ -4,13 +4,6 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Message\Serializer;
 
 use Chronhub\Foundation\Aggregate\AggregateChanged;
-use Chronhub\Foundation\Message\Headers\AggregateIdHeader;
-use Chronhub\Foundation\Message\Headers\AggregateIdTypeHeader;
-use Chronhub\Foundation\Message\Headers\EventTypeHeader;
-use Chronhub\Foundation\Message\Headers\Headers;
-use Chronhub\Foundation\Message\Headers\IdentityHeader;
-use Chronhub\Foundation\Message\Headers\InternalPositionHeader;
-use Chronhub\Foundation\Message\Headers\TimeOfRecordingHeader;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\HeadingId;
 

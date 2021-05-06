@@ -12,25 +12,17 @@ final class BuildHeaders
 {
     private array $headers = [];
 
-    public function fromArray(array $headers): Headers
+    public function fromArray(array $headers)
     {
 
     }
 
-    public function withEventId(HeadingId|string|null $headerId): HeadingId
+    public function withEventId(HeadingId|string|null $headerId)
     {
-        if(null === $headerId){
-            return IdentityHeader::create();
-        }
 
-        if(is_string($headerId)){
-            return IdentityHeader::fromString($headerId);
-        }
-
-        return $headerId;
     }
 
-    public function withEventType(HeadingType|string|null $headerType, HeadingId|string $headerId): HeadingType
+    public function withEventType()
     {
 
     }
