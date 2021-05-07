@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tracker;
 
-use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage as Context;
 use Generator;
@@ -61,10 +60,6 @@ final class ContextualMessage implements Context
 
     public function pullTransientMessage(): object|array
     {
-        if (null === $this->transientMessage) {
-            throw new RuntimeException('Transient message has not been set');
-        }
-
         $transientMessage = $this->transientMessage;
 
         $this->transientMessage = null;
