@@ -27,11 +27,11 @@ final class Message
         return $this->event;
     }
 
-    public function withHeader(string $key, $header): Message
+    public function withHeader(string $key, $value): Message
     {
         $message = clone $this;
 
-        $message->headers[$key] = $header;
+        $message->headers[$key] = $value;
 
         return $message;
     }

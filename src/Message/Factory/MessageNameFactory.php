@@ -40,7 +40,6 @@ final class MessageNameFactory implements MessageFactory
 
         $event = $this->serializer->unserializeContent($payload)->current();
 
-
         return $event instanceof Message ? $event : new Message($event);
     }
 }

@@ -15,9 +15,9 @@ interface Messaging extends Content
 
     public function withHeader(string $header, mixed $value): Domain;
 
-    public function has(string $header): bool;
+    public function has(string $key): bool;
 
-    public function header(string $header): mixed;
+    public function header(string $key): mixed;
 
     public function headers(): array;
 

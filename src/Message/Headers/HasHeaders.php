@@ -5,16 +5,19 @@ namespace Chronhub\Foundation\Message\Headers;
 
 trait HasHeaders
 {
+    /**
+     * @var array<string,mixed>
+     */
     protected array $headers = [];
 
-    public function header(string $header): mixed
+    public function header(string $key): mixed
     {
-        return $this->headers[$header] ?? null;
+        return $this->headers[$key] ?? null;
     }
 
-    public function has(string $header): bool
+    public function has(string $key): bool
     {
-        return isset($this->headers[$header]);
+        return isset($this->headers[$key]);
     }
 
     public function headers(): array

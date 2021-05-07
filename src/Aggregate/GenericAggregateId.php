@@ -7,5 +7,5 @@ use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 
 final class GenericAggregateId implements AggregateId
 {
-    use HasAggregateId;
+    use HasAggregateIdentity;
 }

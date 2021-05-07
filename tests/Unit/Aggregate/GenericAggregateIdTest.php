@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Tests\Unit\Aggregate;
 
 use Chronhub\Foundation\Aggregate\GenericAggregateId;
-use Chronhub\Foundation\Aggregate\HasAggregateId;
+use Chronhub\Foundation\Aggregate\HasAggregateIdentity;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Tests\Double\SomeAggregateId;
 use Chronhub\Foundation\Tests\TestCase;
 
 /** @coversDefaultClass \Chronhub\Foundation\Aggregate\GenericAggregateId */
-/** @coversDefaultClass HasAggregateId */
+/** @coversDefaultClass HasAggregateIdentity */
 final class GenericAggregateIdTest extends TestCase
 {
     /**

@@ -6,7 +6,7 @@ interface AggregateId
 {
     /**
      * @param string $aggregateId
-     * @return static
+     * @return AggregateId&static
      */
     public static function fromString(string $aggregateId): AggregateId;
 

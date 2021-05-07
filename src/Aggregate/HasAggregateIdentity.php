@@ -6,14 +6,20 @@ namespace Chronhub\Foundation\Aggregate;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use function get_class;
 
-trait HasAggregateId
+trait HasAggregateIdentity
 {
     private UuidInterface $identifier;
 
     protected function __construct(UuidInterface $identifier)
     {
         $this->identifier = $identifier;
+    }
+
+    public static function fromString(string $aggregateId): AggregateId
+    {
+        return new self(Uuid::fromString($aggregateId));
     }
 
     public function toString(): string
@@ -27,20 +33,8 @@ trait HasAggregateId
             && $this->toString() === $rootId->toString();
     }
 
-    /**
-     * @return AggregateId|static
-     */
-    public static function create(): static|AggregateId
+    public static function create(): AggregateId
     {
-        return new static(Uuid::uuid4());
-    }
-
-    /**
-     * @param string $aggregateId
-     * @return AggregateId|static
-     */
-    public static function fromString(string $aggregateId): AggregateId
-    {
-        return new static(Uuid::fromString($aggregateId));
+        return new self(Uuid::uuid4());
     }
 }
