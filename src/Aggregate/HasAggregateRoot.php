@@ -8,7 +8,7 @@ use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateRoot;
 use Generator;
 
-abstract class AbstractAggregateRoot implements AggregateRoot
+trait HasAggregateRoot
 {
     private int $version = 0;
     private array $recordedEvents = [];
@@ -56,8 +56,8 @@ abstract class AbstractAggregateRoot implements AggregateRoot
     {
         $aggregateRoot = new static($aggregateId);
 
-        foreach ($events as $message) {
-            $aggregateRoot->apply($message->event());
+        foreach ($events as $event) {
+            $aggregateRoot->apply($event);
         }
 
         // already increment version in apply method

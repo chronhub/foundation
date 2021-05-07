@@ -15,6 +15,9 @@ final class Message
         $this->headers = $headers;
     }
 
+    /**
+     * @return object
+     */
     public function event(): object
     {
         if ($this->event instanceof Messaging || method_exists($this->event, 'withHeaders')) {

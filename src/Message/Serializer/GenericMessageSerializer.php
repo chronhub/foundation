@@ -51,6 +51,8 @@ final class GenericMessageSerializer implements MessageSerializer
 
         $headers = $this->headerSerializer->unserialize($source, $payload);
 
-        yield new Message($event, ...$headers->toArray());
+        yield $event->withHeaders($headers);
+
+        //yield new Message($event, ...$headers->toArray());
     }
 }
