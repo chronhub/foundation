@@ -22,28 +22,23 @@ final class RepositoryEventBuilder
      */
     public function build(AggregateRoot $aggregateRoot): array
     {
-        $version = $aggregateRoot->version();
-        $aggregateId = $aggregateRoot->aggregateId();
         $events = $aggregateRoot->releaseEvents();
-
-        $version = $version - count($events);
+        $version = $aggregateRoot->version() - count($events);
+        $aggregateId = $aggregateRoot->aggregateId();
 
         $headers = [
             Header::AGGREGATE_ID => $aggregateId->toString(),
+            Header::AGGREGATE_ID_TYPE => $aggregateId::class,
             Header::AGGREGATE_TYPE => $aggregateRoot::class
         ];
 
-        return tap(
-            $events,
-            fn(DomainEvent $event): DomainEvent => $this->map($event, $headers, $version)
-        );
-    }
-
-    private function map(DomainEvent $event, array $headers, int &$version): DomainEvent
-    {
-        return tap(
-            new Message($event, $headers + [Header::AGGREGATE_VERSION => ++$version]),
-            fn(Message $message) => $this->messageDecorator->decorate($message)->event()
-        );
+        return array_map(
+            function (DomainEvent $event) use ($headers, &$version) {
+                return $this->messageDecorator->decorate(
+                    new Message(
+                        $event,
+                        $headers + [Header::AGGREGATE_VERSION => ++$version]
+                    ))->event();
+            }, $events);
     }
 }

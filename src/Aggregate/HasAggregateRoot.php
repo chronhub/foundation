@@ -60,7 +60,6 @@ trait HasAggregateRoot
             $aggregateRoot->apply($event);
         }
 
-        // already increment version in apply method
         $aggregateRoot->version = (int)$events->getReturn();
 
         return $aggregateRoot->version() > 0 ? $aggregateRoot : null;

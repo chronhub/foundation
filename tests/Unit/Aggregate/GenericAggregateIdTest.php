@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Chronhub\Foundation\Tests\Unit\Message\Aggregate;
+namespace Chronhub\Foundation\Tests\Unit\Aggregate;
 
 use Chronhub\Foundation\Aggregate\GenericAggregateId;
 use Chronhub\Foundation\Aggregate\HasAggregateId;
