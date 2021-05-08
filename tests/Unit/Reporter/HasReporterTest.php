@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Tests\Unit\Reporter;
 
 use Chronhub\Foundation\Exception\MessageDispatchFailed;
-use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Reporter\HasReporter;
 use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
@@ -13,6 +12,7 @@ use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCase;
+use RuntimeException;
 
 final class HasReporterTest extends TestCase
 {
@@ -78,22 +78,24 @@ final class HasReporterTest extends TestCase
 
         $reporter = $this->reporterInstance();
 
-        $onDispatch = new CallableMessageSubscriber(Reporter::DISPATCH_EVENT,
+        $stopPropagation = new CallableMessageSubscriber(Reporter::DISPATCH_EVENT,
             function (ContextualMessage $context): void {
                 $context->stopPropagation(true);
+                throw new RuntimeException('some_message');
             }, 1);
 
-        $onFinalize = new CallableMessageSubscriber(Reporter::DISPATCH_EVENT,
+        $assertPropagationIsNotStopped = new CallableMessageSubscriber(Reporter::DISPATCH_EVENT,
             function (ContextualMessage $context): void {
                 $this->assertFalse($context->isPropagationStopped());
             }, 10);
 
-        $reporter->subscribe($onDispatch, $onFinalize);
+        $reporter->subscribe($stopPropagation, $assertPropagationIsNotStopped);
 
         try {
             $reporter->publish($message);
         } catch (MessageDispatchFailed $exception) {
             $this->assertInstanceOf(MessageDispatchFailed::class, $exception);
+            $this->assertEquals('some_message', $exception->getPrevious()->getMessage());
         }
     }
 
