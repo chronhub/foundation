@@ -1,0 +1,29 @@
+<?php
+declare(strict_types=1);
+
+namespace Chronhub\Foundation\Reporter;
+
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use React\Promise\PromiseInterface;
+
+class ReportQuery implements Reporter
+{
+    use HasReporter;
+
+    public function publish(object|array $query): PromiseInterface
+    {
+        $context = $this->tracker->newContext(Reporter::DISPATCH_EVENT);
+
+        $context->withTransientMessage($query);
+
+        $this->publishMessage($context);
+
+        $promise = $context->promise();
+
+        if (!$promise && $context->hasException()) {
+            throw $context->exception();
+        }
+
+        return $promise;
+    }
+}

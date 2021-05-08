@@ -13,7 +13,7 @@ final class GenericListener implements Listener
      */
     private $callback;
 
-    public function __construct(private string $eventName,
+    public function __construct(private string $event,
                                 callable $callback,
                                 private int $priority)
     {
@@ -27,7 +27,7 @@ final class GenericListener implements Listener
 
     public function eventName(): string
     {
-        return $this->eventName;
+        return $this->event;
     }
 
     public function priority(): int

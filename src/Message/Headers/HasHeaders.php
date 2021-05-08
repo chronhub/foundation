@@ -20,6 +20,11 @@ trait HasHeaders
         return isset($this->headers[$key]);
     }
 
+    public function hasNot(string $key): bool
+    {
+        return !isset($this->headers[$key]);
+    }
+
     public function headers(): array
     {
         return $this->headers;
