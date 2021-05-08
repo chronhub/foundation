@@ -24,7 +24,7 @@ final class GuardQueryQueryOnFinalizeTest extends TestCaseWithProphecy
     use HandlePromise;
 
     private AuthorizeMessage|ObjectProphecy $authorization;
-    private ObjectProphecy|MessageAlias $alias;
+    private MessageAlias|ObjectProphecy $alias;
 
     protected function setUp(): void
     {

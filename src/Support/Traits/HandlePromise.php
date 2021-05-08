@@ -36,7 +36,6 @@ trait HandlePromise
             return $exception;
         }
 
-        /* @var mixed $result */
         return $result;
     }
 }
