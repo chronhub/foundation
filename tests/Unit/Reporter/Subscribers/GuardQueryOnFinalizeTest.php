@@ -19,7 +19,7 @@ use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 
 /** @coversDefaultClass \Chronhub\Foundation\Reporter\Subscribers\GuardQueryOnFinalize */
-final class GuardQueryQueryOnFinalizeTest extends TestCaseWithProphecy
+final class GuardQueryOnFinalizeTest extends TestCaseWithProphecy
 {
     use HandlePromise;
 

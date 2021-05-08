@@ -18,6 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 
+/** @coversDefaultClass \Chronhub\Foundation\Reporter\Subscribers\GuardQueryOnDispatch */
 final class GuardQueryOnDispatchTest extends TestCaseWithProphecy
 {
     use HandlePromise;
