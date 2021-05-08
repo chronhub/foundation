@@ -5,8 +5,8 @@ namespace Chronhub\Foundation\Reporter\Router;
 
 use Chronhub\Foundation\Exception\ReportFailed;
 use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
 use Chronhub\Foundation\Support\Contracts\Reporter\Router;
-use Chronhub\Foundation\Support\Facade\AliasMessage;
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Collection;
@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 final class ReporterRouter implements Router
 {
     public function __construct(private array $map,
+                                private MessageAlias $messageAlias,
                                 private ?Container $container,
                                 private ?string $callableMethod)
     {
@@ -51,7 +52,7 @@ final class ReporterRouter implements Router
      */
     private function determineMessageHandler(Message $message): Collection
     {
-        $messageAlias = AliasMessage::instanceToAlias($message->event());
+        $messageAlias = $this->messageAlias->instanceToAlias($message->event());
 
         if (null === $messageHandlers = $this->map[$messageAlias] ?? null) {
             throw ReportFailed::messageNameNotFound($messageAlias);
