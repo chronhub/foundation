@@ -17,8 +17,11 @@
         </include>
     </coverage>
     <testsuites>
-        <testsuite name="Foundation Test Suite">
-            <directory>tests</directory>
+        <testsuite name="Unit Foundation Test Suite">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Functional Foundation Test Suite">
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
     <php>

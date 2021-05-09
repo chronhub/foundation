@@ -11,11 +11,11 @@ abstract class AggregateChanged extends DomainEvent
 
     public static function occur(string $aggregateId, array $content): static
     {
-        $self = new static($content);
+        $event = new static($content);
 
-        $self->aggregateId = $aggregateId;
+        $event->aggregateId = $aggregateId;
 
-        return $self;
+        return $event;
     }
 
     public function aggregateId(): string

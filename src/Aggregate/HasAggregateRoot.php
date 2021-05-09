@@ -15,6 +15,7 @@ trait HasAggregateRoot
 
     protected function __construct(private AggregateId $aggregateId)
     {
+        //
     }
 
     public function aggregateId(): AggregateId

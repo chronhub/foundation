@@ -63,6 +63,11 @@ final class ReporterRouter implements Router
         return new Collection($messageHandlers);
     }
 
+    /**
+     * @param string $messageHandler
+     * @return object
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     private function locateStringMessageHandler(string $messageHandler): object
     {
         if (!$this->container) {
