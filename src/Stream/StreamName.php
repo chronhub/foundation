@@ -13,7 +13,7 @@ final class StreamName
     {
         $name = trim($name);
 
-        if ($name === '') {
+        if ($name === "") {
             throw new InvalidArgumentException('Invalid stream name');
         }
 
