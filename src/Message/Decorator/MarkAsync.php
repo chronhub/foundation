@@ -15,7 +15,9 @@ final class MarkAsync implements MessageDecorator
             return $message;
         }
 
-        //
+        if ($message->hasNot(Header::ASYNC_MARKER)) {
+            $message = $message->withHeader(Header::ASYNC_MARKER, false);
+        }
 
         return $message;
     }

@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message;
 
+use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\DomainCommand;
 use Chronhub\Foundation\Message\DomainEvent;
 use Chronhub\Foundation\Message\DomainQuery;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\Double\SomeNakedObject;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use Generator;
@@ -56,10 +58,94 @@ final class MessageTest extends TestCaseWithProphecy
         $this->assertEquals('123', $message->header(Header::EVENT_ID));
     }
 
+    /**
+     * @test
+     * @dataProvider provideHeaders
+     */
+    public function it_return_event_messaging_with_headers(array $headers): void
+    {
+        $event = SomeCommand::fromContent(['name' => 'steph']);
+
+        $message = new Message(SomeCommand::fromContent(['name' => 'steph']), $headers);
+
+        $this->assertEquals($event->withHeaders($headers), $message->event());
+    }
+
+    /**
+     * @test
+     */
+    public function it_return_event_messaging_without_headers(): void
+    {
+        $event = SomeCommand::fromContent(['name' => 'steph']);
+        $headers = ['some' => 'header'];
+
+        $message = new Message(SomeCommand::fromContent(['name' => 'steph']), $headers);
+
+        $this->assertEquals($event, $message->eventWithoutHeaders());
+    }
+
+    /**
+     * @test
+     */
+    public function it_return_event_headers_when_message_headers_is_empty_on_construct(): void
+    {
+        $event = SomeCommand::fromContent(['name' => 'steph']);
+        $event = $event->withHeaders(['some' => 'header']);
+
+        $message = new Message($event, []);
+
+        $this->assertEquals(['some' => 'header'], $message->headers());
+        $this->assertEquals(['some' => 'header'], $message->event()->headers());
+    }
+
+    /**
+     * @test
+     */
+    public function it_return_event_headers_when_message_headers_equals_event_headers_on_construct(): void
+    {
+        $event = SomeCommand::fromContent(['name' => 'steph']);
+        $event = $event->withHeaders(['some' => 'header']);
+
+        $message = new Message($event, ['some' => 'header']);
+
+        $this->assertEquals(['some' => 'header'], $message->headers());
+        $this->assertEquals(['some' => 'header'], $message->event()->headers());
+    }
+
+    /**
+     * @test
+     */
+    public function it_raise_exception_when_message_headers_does_not_match_event_messaging_headers(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid headers consistency for event class ' . SomeCommand::class);
+
+        $event = SomeCommand::fromContent(['name' => 'steph']);
+        $event = $event->withHeaders(['some' => 'header']);
+
+        new Message($event, ['another' => 'header']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_return_event_not_messaging_without_headers(): void
+    {
+        $message = new Message(new stdclass());
+
+        $this->assertEquals(new stdclass(), $message->eventWithoutHeaders());
+    }
+
     public function provideEventObjects(): Generator
     {
         yield [new stdclass];
         yield [new SomeNakedObject()];
+    }
+
+    public function provideHeaders(): Generator
+    {
+        yield [[]];
+        yield [['some' => 'header']];
     }
 
     public function provideEventMessaging(): Generator

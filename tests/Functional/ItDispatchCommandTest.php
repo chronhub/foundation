@@ -43,6 +43,37 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
 
         $this->assertEquals(ReportCommand::class, $headers[Header::BUS_NAME]);
         $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
+        $this->assertEquals(SomeCommand::class, $headers[Header::EVENT_TYPE]);
+        $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_dispatch_command_as_array(): void
+    {
+        $pastCommand = null;
+
+        $this->app['config']->set('reporter.reporting.command.default.map', [
+            'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
+                $pastCommand = $command;
+            }
+        ]);
+
+        $command = [
+            'headers' => [ Header::EVENT_TYPE => SomeCommand::class],
+            'content' => ['name' => 'steph']
+        ];
+
+        Report::command()->publish($command);
+
+        $this->assertInstanceOf(SomeCommand::class, $pastCommand);
+
+        $headers = $pastCommand->headers();
+
+        $this->assertEquals(ReportCommand::class, $headers[Header::BUS_NAME]);
+        $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
+        $this->assertEquals(SomeCommand::class, $headers[Header::EVENT_TYPE]);
         $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
     }
 
@@ -82,6 +113,7 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
         $headers = [
             Header::BUS_NAME   => 'reporter.service_id',
             Header::EVENT_ID   => Uuid::uuid4(),
+            Header::EVENT_TYPE => SomeCommand::class,
             Header::EVENT_TIME => $this->app[Clock::class]->fromNow(),
         ];
 

@@ -33,7 +33,9 @@ class StreamNameTest extends TestCase
     }
 
     /**
+     * @test
      * @param string $invalidStreamName
+     * @dataProvider provideInvalidStreamName
      */
     public function it_raise_exception_when_stream_name_is_empty(string $invalidStreamName): void
     {

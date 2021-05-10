@@ -33,6 +33,12 @@ final class AsyncMessageProducer implements MessageProducer
             return true;
         }
 
+        if (null === $message->header(Header::ASYNC_MARKER)) {
+            throw new RuntimeException(
+                'Async marker header is required to produce message sync/async for event' . $message->event()::class
+            );
+        }
+
         if ($this->isAlreadyProducedAsync($message)) {
             return true;
         }
@@ -42,11 +48,11 @@ final class AsyncMessageProducer implements MessageProducer
 
     private function isSyncWithStrategy(Message $message): bool
     {
-        return match($this->producerStrategy){
-          'sync' => true,
-          'per_message' => !$message->event() instanceof AsyncMessage,
-          'async' => false,
-          'default' => throw new RuntimeException('Invalid producer strategy ' . $this->producerStrategy)
+        return match ($this->producerStrategy) {
+            'sync' => true,
+            'per_message' => !$message->event() instanceof AsyncMessage,
+            'async' => false,
+            default => throw new RuntimeException('Invalid producer strategy ' . $this->producerStrategy)
         };
     }
 

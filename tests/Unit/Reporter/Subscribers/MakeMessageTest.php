@@ -35,7 +35,7 @@ final class MakeMessageTest extends TestCaseWithProphecy
     {
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']));
 
-        $this->factory->createFrom($event)->willReturn($message)->shouldBeCalled();
+        $this->factory->createFromMessage($event)->willReturn($message)->shouldBeCalled();
 
         $context = $this->tracker->newContext(Reporter::DISPATCH_EVENT);
         $context->withTransientMessage($event);

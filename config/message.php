@@ -5,20 +5,21 @@ return [
 
     'messaging' => [
 
-        'factory' => \Chronhub\Foundation\Message\Factory\GenericMessageFactory::class,
+        'factory'    => \Chronhub\Foundation\Message\Factory\GenericMessageFactory::class,
         'serializer' => \Chronhub\Foundation\Message\Serializer\GenericMessageSerializer::class,
-        'alias' => \Chronhub\Foundation\Message\Alias\AliasFromInflector::class,
+        'alias'      => \Chronhub\Foundation\Message\Alias\AliasFromInflector::class,
         'decorators' => [
             \Chronhub\Foundation\Message\Decorator\MarkEventId::class,
+            \Chronhub\Foundation\Message\Decorator\MarkEventType::class,
             \Chronhub\Foundation\Message\Decorator\MarkEventTime::class,
         ],
 
         'producer' => [
-            'default' => 'sync',
+            'default'     => 'sync',
             'per_message' => [
                 'queue' => '\Chronhub\Foundation\Message\Producer\IlluminateProducer::class',
             ],
-            'async_all' => [
+            'async_all'   => [
                 'queue' => '\Chronhub\Foundation\Message\Producer\IlluminateProducer::class',
             ]
         ],

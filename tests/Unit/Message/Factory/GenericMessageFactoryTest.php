@@ -6,6 +6,7 @@ namespace Chronhub\Foundation\Tests\Unit\Message\Factory;
 use Chronhub\Foundation\Message\Factory\GenericMessageFactory;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use stdClass;
 
@@ -15,7 +16,7 @@ final class GenericMessageFactoryTest extends TestCaseWithProphecy
     /**
      * @test
      *
-     * @covers ::createFrom
+     * @covers ::createFromMessage
      */
     public function it_create_message_from_array(): void
     {
@@ -29,7 +30,7 @@ final class GenericMessageFactoryTest extends TestCaseWithProphecy
 
         $factory = new GenericMessageFactory($serializer->reveal());
 
-        $message = $factory->createFrom(['foo' => 'bar']);
+        $message = $factory->createFromMessage(['foo' => 'bar']);
 
         $this->assertEquals($expectedMessage, $message);
     }
@@ -44,7 +45,7 @@ final class GenericMessageFactoryTest extends TestCaseWithProphecy
         $serializer = $this->prophesize(MessageSerializer::class)->reveal();
         $factory = new GenericMessageFactory($serializer);
 
-        $message = $factory->createFrom($expectedMessage);
+        $message = $factory->createFromMessage($expectedMessage);
 
         $this->assertEquals($expectedMessage, $message);
     }
@@ -54,13 +55,29 @@ final class GenericMessageFactoryTest extends TestCaseWithProphecy
      */
     public function it_create_message_from_event_instance(): void
     {
-        $expectedEvent = new stdClass();
+        $expectedEvent = SomeCommand::fromContent(['name' => 'steph']);
 
         $serializer = $this->prophesize(MessageSerializer::class)->reveal();
         $factory = new GenericMessageFactory($serializer);
 
-        $message = $factory->createFrom($expectedEvent);
+        $message = $factory->createFromMessage($expectedEvent);
 
         $this->assertEquals($expectedEvent, $message->event());
+    }
+
+    /**
+     * @test
+     */
+    public function it_create_message_from_event_instance_with_headers(): void
+    {
+        $expectedEvent = SomeCommand::fromContent(['name' => 'steph']);
+        $expectedEvent = $expectedEvent->withHeader('some', 'header');
+
+        $serializer = $this->prophesize(MessageSerializer::class)->reveal();
+        $factory = new GenericMessageFactory($serializer);
+
+        $message = $factory->createFromMessage($expectedEvent);
+
+        $this->assertEquals($expectedEvent->headers(), $message->event()->headers());
     }
 }

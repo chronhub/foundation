@@ -17,7 +17,7 @@ final class MessageNameFactory implements MessageFactory
         //
     }
 
-    public function createFrom(object|array $event): Message
+    public function createFromMessage(object|array $event): Message
     {
         // have to define a specific target for reporter
         // in reporter config bus name when dispatching async

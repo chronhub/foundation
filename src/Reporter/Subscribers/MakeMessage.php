@@ -18,7 +18,7 @@ final class MakeMessage implements MessageSubscriber
     public function attachToTracker(MessageTracker $tracker): void
     {
         $tracker->listen(Reporter::DISPATCH_EVENT, function (ContextualMessage $context): void {
-            $message = $this->factory->createFrom($context->pullTransientMessage());
+            $message = $this->factory->createFromMessage($context->pullTransientMessage());
 
             $context->withMessage($message);
         }, Reporter::PRIORITY_MESSAGE_FACTORY);
