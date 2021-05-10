@@ -5,6 +5,7 @@ namespace Chronhub\Foundation\Reporter\Services;
 
 use Chronhub\Foundation\Exception\ReportFailed;
 use Chronhub\Foundation\Message\Decorator\ChainDecorators;
+use Chronhub\Foundation\Message\Producer\IlluminateQueue;
 use Chronhub\Foundation\Message\Producer\SyncMessageProducer;
 use Chronhub\Foundation\Reporter\ReportCommand;
 use Chronhub\Foundation\Reporter\ReportEvent;
@@ -16,8 +17,12 @@ use Chronhub\Foundation\Reporter\Subscribers\ChainMessageDecoratorSubscriber;
 use Chronhub\Foundation\Reporter\Subscribers\HandleRouter;
 use Chronhub\Foundation\Reporter\Subscribers\NameReporterService;
 use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
+use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
+use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
+use Illuminate\Contracts\Bus\QueueingDispatcher;
 use Illuminate\Support\Arr;
 
 final class DefaultReporterManager extends AbstractReporterManager
@@ -83,10 +88,51 @@ final class DefaultReporterManager extends AbstractReporterManager
             'event' => new MultipleHandlerRouter($router)
         };
 
-        //$messageProducer = $this->createMessageProducer($type, $config['messaging']['producer'] ?? null);
-        $messageProducer = new SyncMessageProducer();
+        $messageProducer = $this->createMessageProducer($type, $config['messaging']['producer'] ?? null);
 
         return new HandleRouter($reporterRouter, $messageProducer);
+    }
+
+    protected function createMessageProducer(string $type, ?string $strategy): MessageProducer
+    {
+        if (null === $strategy || $strategy === 'default') {
+            $strategy = $this->fromReporter('messaging.producer.default');
+        }
+
+        if ($type === Messaging::QUERY || $strategy === 'sync') {
+            return new SyncMessageProducer();
+        }
+
+        $config = $this->fromReporter("messaging.producer.$strategy");
+
+        if (!is_array($config) || empty($config)) {
+            throw new ReportFailed("Invalid message producer config for strategy $strategy");
+        }
+
+        $producer = $config['service'];
+
+        if ($this->container->bound($producer)) {
+            return $this->container->get($producer);
+        }
+
+        $queue = $config['queue'] ?? null;
+
+        if (null === $queue) {
+            $queue = $this->container->make(IlluminateQueue::class);
+        }
+
+        if (is_array($queue)) {
+            $queue = new IlluminateQueue(
+                $this->container->get(QueueingDispatcher::class),
+                $this->container->get(MessageSerializer::class),
+                $queue['connection'] ?? null,
+                $queue['queue'] ?? null,
+            );
+        }
+
+        $queue = is_string($queue) ? $this->container->make($queue) : $queue;
+
+        return new $producer($queue);
     }
 
     protected function chainMessageDecoratorsSubscribers(array $config): MessageSubscriber

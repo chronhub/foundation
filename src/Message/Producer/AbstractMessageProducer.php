@@ -5,15 +5,14 @@ namespace Chronhub\Foundation\Message\Producer;
 
 use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\AsyncMessage;
 use Chronhub\Foundation\Support\Contracts\Message\Content;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
+use Chronhub\Foundation\Support\Contracts\Message\MessageQueue;
 
-final class AsyncMessageProducer implements MessageProducer
+abstract class AbstractMessageProducer implements MessageProducer
 {
-    public function __construct(private IlluminateProducer $queueProducer,
-                                private string $producerStrategy)
+    public function __construct(protected MessageQueue $queueProducer)
     {
         //
     }
@@ -46,14 +45,9 @@ final class AsyncMessageProducer implements MessageProducer
         return $this->isSyncWithStrategy($message);
     }
 
-    private function isSyncWithStrategy(Message $message): bool
+    protected function isAlreadyProducedAsync(Message $message): bool
     {
-        return match ($this->producerStrategy) {
-            'sync' => true,
-            'per_message' => !$message->event() instanceof AsyncMessage,
-            'async' => false,
-            default => throw new RuntimeException('Invalid producer strategy ' . $this->producerStrategy)
-        };
+        return true === $message->header(Header::ASYNC_MARKER);
     }
 
     private function produceMessageAsync(Message $message): Message
@@ -65,8 +59,5 @@ final class AsyncMessageProducer implements MessageProducer
         return $message;
     }
 
-    private function isAlreadyProducedAsync(Message $message): bool
-    {
-        return true === $message->header(Header::ASYNC_MARKER);
-    }
+    abstract protected function isSyncWithStrategy(Message $message): bool;
 }

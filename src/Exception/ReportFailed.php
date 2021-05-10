@@ -3,16 +3,11 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Exception;
 
-final class ReportFailed extends ReporterException
+class ReportFailed extends ReporterException
 {
     public static function messageHandlerNotSupported(): self
     {
         return new self('Message handler type not supported');
-    }
-
-    public static function emptyMessageHandlersNotAllowed(): self
-    {
-        return new self('Router require at least one message handler');
     }
 
     public static function oneMessageHandlerOnly(): self

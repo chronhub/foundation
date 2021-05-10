@@ -9,10 +9,10 @@ use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Tests\Double\SomeEvent;
 use Chronhub\Foundation\Tests\Double\SomeEventHandler;
-use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
 use Ramsey\Uuid\UuidInterface;
 
-final class ItDispatchEventTest extends TestCaseWithOrchestra
+final class ItDispatchEventTest extends OrchestraWithDefaultConfig
 {
     /**
      * @test

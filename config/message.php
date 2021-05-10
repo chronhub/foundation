@@ -14,13 +14,23 @@ return [
             \Chronhub\Foundation\Message\Decorator\MarkEventTime::class,
         ],
 
+        // only default and sync can not be unset
         'producer' => [
             'default'     => 'sync',
+            'sync'        => true,
             'per_message' => [
-                'queue' => '\Chronhub\Foundation\Message\Producer\IlluminateProducer::class',
+                'service' => \Chronhub\Foundation\Message\Producer\PerMessageProducer::class,
+                'queue'   => \Chronhub\Foundation\Message\Producer\IlluminateQueue::class,
             ],
-            'async_all'   => [
-                'queue' => '\Chronhub\Foundation\Message\Producer\IlluminateProducer::class',
+            'async'       => [
+                // your registered service id (queue would not be used)
+                // or the provided one
+                'service' => \Chronhub\Foundation\Message\Producer\AsyncAllMessageProducer::class,
+
+                // default illuminate queue / nullable
+                // or service id
+                // or array['connection' => 'my_con , 'queue' => 'my_queue' ]
+                'queue'   => \Chronhub\Foundation\Message\Producer\IlluminateQueue::class,
             ]
         ],
 

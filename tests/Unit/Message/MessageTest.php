@@ -60,6 +60,21 @@ final class MessageTest extends TestCaseWithProphecy
 
     /**
      * @test
+     */
+    public function it_can_override_headers(): void
+    {
+        $message = new Message(new stdclass, [Header::EVENT_ID => '123']);
+
+        $messageWithHeaders = $message->withHeaders([Header::EVENT_ID => '456']);
+
+        $this->assertNotEquals($message, $messageWithHeaders);
+
+        $this->assertEquals([Header::EVENT_ID => '123'], $message->headers());
+        $this->assertEquals([Header::EVENT_ID => '456'], $messageWithHeaders->headers());
+    }
+
+    /**
+     * @test
      * @dataProvider provideHeaders
      */
     public function it_return_event_messaging_with_headers(array $headers): void

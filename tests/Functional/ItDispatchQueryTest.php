@@ -10,11 +10,11 @@ use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Support\Traits\HandlePromise;
 use Chronhub\Foundation\Tests\Double\SomeQuery;
 use Chronhub\Foundation\Tests\Double\SomeQueryHandler;
-use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
 use Ramsey\Uuid\UuidInterface;
 use React\Promise\Deferred;
 
-final class ItDispatchQueryTest extends TestCaseWithOrchestra
+final class ItDispatchQueryTest extends OrchestraWithDefaultConfig
 {
     use HandlePromise;
 

@@ -43,6 +43,15 @@ final class Message
         return $message;
     }
 
+    public function withHeaders(array $headers): Message
+    {
+        $message = clone $this;
+
+        $message->headers = $headers;
+
+        return $message;
+    }
+
     public function isMessaging(): bool
     {
         return $this->event instanceof Messaging;

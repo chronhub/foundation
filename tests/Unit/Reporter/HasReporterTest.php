@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Tests\Unit\Reporter;
 
 use Chronhub\Foundation\Exception\MessageDispatchFailed;
+use Chronhub\Foundation\Exception\MessageNotHandled;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Reporter\HasReporter;
 use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
@@ -104,8 +105,8 @@ final class HasReporterTest extends TestCase
      */
     public function it_raise_exception_if_message_is_not_handled(): void
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Message ' . SomeCommand::class . ' was not handled');
+        $this->expectException(MessageNotHandled::class);
+        $this->expectExceptionMessage('Message ' . SomeCommand::class . ' not handled');
 
         $message = new Message(
             SomeCommand::fromContent(['name' => 'steph']),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Reporter;
 
 use Chronhub\Foundation\Exception\MessageDispatchFailed;
-use Chronhub\Foundation\Exception\RuntimeException;
+use Chronhub\Foundation\Exception\MessageNotHandled;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
@@ -30,7 +30,7 @@ trait HasReporter
             if (!$context->isMessageHandled()) {
                 $messageName = $context->message()->header(Header::EVENT_TYPE);
 
-                throw new RuntimeException("Message $messageName was not handled");
+                throw MessageNotHandled::withMessageName($messageName);
             }
         } catch (Throwable $exception) {
             $wrapException = MessageDispatchFailed::withException($exception);

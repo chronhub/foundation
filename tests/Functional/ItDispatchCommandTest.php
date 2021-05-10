@@ -3,27 +3,36 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional;
 
+use Chronhub\Foundation\Exception\MessageNotHandled;
+use Chronhub\Foundation\Message\Decorator\MarkAsync;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Reporter\ReportCommand;
 use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
+use Chronhub\Foundation\Reporter\Subscribers\HandleCommand;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\Double\SomeCommandHandler;
-use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
+use Chronhub\Foundation\Tests\Spy\ResetExceptionSpySubscriber;
+use Generator;
+use Illuminate\Contracts\Foundation\Application;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Throwable;
 
-final class ItDispatchCommandTest extends TestCaseWithOrchestra
+final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
 {
     /**
      * @test
+     * @dataProvider provideCommand
      */
-    public function it_dispatch_command(): void
+    public function it_dispatch_command(array|object $message): void
     {
         $pastCommand = null;
 
@@ -33,9 +42,7 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
             }
         ]);
 
-        $command = SomeCommand::fromContent(['name' => 'steph']);
-
-        Report::command()->publish($command);
+        Report::command()->publish($message);
 
         $this->assertInstanceOf(SomeCommand::class, $pastCommand);
 
@@ -61,7 +68,7 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
         ]);
 
         $command = [
-            'headers' => [ Header::EVENT_TYPE => SomeCommand::class],
+            'headers' => [Header::EVENT_TYPE => SomeCommand::class],
             'content' => ['name' => 'steph']
         ];
 
@@ -79,11 +86,54 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
 
     /**
      * @test
+     * @dataProvider provideCommand
      */
-    public function it_dispatch_command_to_his_named_handler(): void
+    public function it_dispatch_command_asynchronously(array|object $message): void
     {
-        $command = SomeCommand::fromContent(['name' => 'steph']);
+        $this->app->bind('report.command.default', function (Application $app): ReportCommand {
+            return $app[ReporterManager::class]->command();
+        });
 
+        $pastCommand = null;
+
+        $defaultConfig = [
+            'default' => [
+                'service_id' => 'report.command.default',
+                'messaging'  => [
+                    'decorators'  => [MarkAsync::class],
+                    'subscribers' => [HandleCommand::class],
+                    'producer'    => 'async',
+                ],
+                'map'        => [
+                    'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
+                        $pastCommand = $command;
+                    }
+                ]
+            ]];
+
+        $this->app['config']->set('reporter.reporting.command', $defaultConfig);
+
+        $reporter = $this->app['report.command.default'];
+
+        $resetException = new ResetExceptionSpySubscriber(
+            Reporter::FINALIZE_EVENT,
+            fn(ContextualMessage $context, Throwable $exception): bool => $exception instanceof MessageNotHandled,
+            -10000
+        );
+
+        $reporter->subscribe($resetException);
+
+        $reporter->publish($message);
+
+        $this->assertTrue($pastCommand->header(Header::ASYNC_MARKER));
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCommand
+     */
+    public function it_dispatch_command_to_his_named_handler(object|array $message): void
+    {
         $handler = new SomeCommandHandler();
 
         $this->assertFalse($handler->isHandled());
@@ -92,16 +142,21 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
             'some-command' => $handler
         ]);
 
-        Report::command()->publish($command);
+        Report::command()->publish($message);
 
         $this->assertTrue($handler->isHandled());
     }
 
     /**
      * @test
+     * @dataProvider provideCommand
      */
-    public function it_dispatch_message_with_predefined_headers(): void
+    public function it_dispatch_message_with_predefined_headers(array|object $message): void
     {
+        $this->app->bind('report.command.default', function (Application $app): ReportCommand {
+            return $app[ReporterManager::class]->command();
+        });
+
         $pastCommand = null;
 
         $this->app['config']->set('reporter.reporting.command.default.map', [
@@ -111,15 +166,19 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
         ]);
 
         $headers = [
-            Header::BUS_NAME   => 'reporter.service_id',
+            Header::BUS_NAME   => 'report.command.default',
             Header::EVENT_ID   => Uuid::uuid4(),
             Header::EVENT_TYPE => SomeCommand::class,
             Header::EVENT_TIME => $this->app[Clock::class]->fromNow(),
         ];
 
-        $message = new Message(SomeCommand::fromContent(['name' => 'steph']), $headers);
+        if (is_array($message)) {
+            $message['headers'] = $message['headers'] + $headers;
+        } else {
+            $message = $message->withHeaders($headers);
+        }
 
-        Report::command()->publish($message);
+        $this->app['report.command.default']->publish($message);
 
         $this->assertEquals($headers, $pastCommand->headers());
     }
@@ -152,5 +211,19 @@ final class ItDispatchCommandTest extends TestCaseWithOrchestra
         $reporter->publish($message);
 
         $this->assertEquals('bug', $pastCommand->toContent()['name']);
+    }
+
+    public function provideCommand(): Generator
+    {
+        yield [SomeCommand::fromContent(['name' => 'steph'])];
+
+        yield [new Message(SomeCommand::fromContent(['name' => 'steph']))];
+
+        yield [
+            [
+                'headers' => [Header::EVENT_TYPE => SomeCommand::class],
+                'content' => ['name' => 'steph']
+            ]
+        ];
     }
 }

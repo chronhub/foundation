@@ -38,6 +38,10 @@ abstract class AbstractReporterManager implements ReporterManager
             return $customerReporter($this->container, $this->config);
         }
 
+        if ($reporter = ($this->reporters[$reporterKey] ?? null)) {
+            return $reporter;
+        }
+
         $config = $this->fromReporter("reporting.$type.$driver");
 
         if (!is_array($config) || empty($config)) {

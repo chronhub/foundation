@@ -6,9 +6,10 @@ namespace Chronhub\Foundation\Message\Producer;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
+use Chronhub\Foundation\Support\Contracts\Message\MessageQueue;
 use Illuminate\Contracts\Bus\QueueingDispatcher;
 
-class IlluminateProducer
+final class IlluminateQueue implements MessageQueue
 {
     public function __construct(private QueueingDispatcher $queueingDispatcher,
                                 private MessageSerializer $messageSerializer,
