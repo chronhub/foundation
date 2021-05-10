@@ -26,14 +26,20 @@ final class MessageNameFactory implements MessageFactory
             throw new InvalidArgumentException("Message name factory instance can handle array event only");
         }
 
-        if (!isset($payload['message_name'])) {
+        $messageName = $payload['message_name'] ?? null;
+
+        if (null === $messageName) {
             throw new InvalidArgumentException("Missing message name key from array payload");
+        }
+
+        if(!class_exists($messageName)){
+            throw new InvalidArgumentException("Message name must be a fqcn");
         }
 
         $headers = $payload['headers'] ?? [];
 
         $payload = [
-            'headers' => $headers + [Header::EVENT_TYPE => $payload['message_name']],
+            'headers' => $headers + [Header::EVENT_TYPE => $messageName],
             'content' => $payload['content'] ?? []
         ];
 
