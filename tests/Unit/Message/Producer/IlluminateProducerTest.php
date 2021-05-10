@@ -25,7 +25,7 @@ final class IlluminateProducerTest extends TestCaseWithProphecy
 
         $producer = new IlluminateQueue($queue->reveal(), $serializer->reveal(), 'default', 'default');
 
-        $message = new Message(new stdClass(), [Header::BUS_NAME => 'some_bus']);
+        $message = new Message(new stdClass(), [Header::REPORTER_NAME => 'some_bus']);
 
         $payload = new Payload([], ['foo' => 'bar'], null);
         $serializer->serializeMessage($message)->willReturn($payload)->shouldBeCalled();

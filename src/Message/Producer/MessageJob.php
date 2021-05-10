@@ -13,7 +13,7 @@ final class MessageJob
     use InteractsWithQueue;
 
     public function __construct(public array $payload,
-                                public string $busType,
+                                public string $reporterName,
                                 public ?string $connection,
                                 public ?string $queue)
     {
@@ -21,9 +21,7 @@ final class MessageJob
 
     public function handle(Container $container): void
     {
-        $serviceBus = $container->make($this->busType);
-
-        $serviceBus->publish($this->payload);
+        $container->make($this->reporterName)->publish($this->payload);
     }
 
     /**

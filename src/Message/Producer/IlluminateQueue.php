@@ -16,6 +16,7 @@ final class IlluminateQueue implements MessageQueue
                                 private ?string $connection = null,
                                 private ?string $queue = null)
     {
+        //
     }
 
     public function toQueue(Message $message): void
@@ -31,7 +32,7 @@ final class IlluminateQueue implements MessageQueue
 
         return new MessageJob(
             $payload,
-            $message->header(Header::BUS_NAME),
+            $message->header(Header::REPORTER_NAME),
             $this->connection,
             $this->queue
         );

@@ -48,7 +48,7 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
 
         $headers = $pastCommand->headers();
 
-        $this->assertEquals(ReportCommand::class, $headers[Header::BUS_NAME]);
+        $this->assertEquals(ReportCommand::class, $headers[Header::REPORTER_NAME]);
         $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
         $this->assertEquals(SomeCommand::class, $headers[Header::EVENT_TYPE]);
         $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
@@ -78,7 +78,7 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
 
         $headers = $pastCommand->headers();
 
-        $this->assertEquals(ReportCommand::class, $headers[Header::BUS_NAME]);
+        $this->assertEquals(ReportCommand::class, $headers[Header::REPORTER_NAME]);
         $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
         $this->assertEquals(SomeCommand::class, $headers[Header::EVENT_TYPE]);
         $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
@@ -166,10 +166,10 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         ]);
 
         $headers = [
-            Header::BUS_NAME   => 'report.command.default',
-            Header::EVENT_ID   => Uuid::uuid4(),
-            Header::EVENT_TYPE => SomeCommand::class,
-            Header::EVENT_TIME => $this->app[Clock::class]->fromNow(),
+            Header::REPORTER_NAME => 'report.command.default',
+            Header::EVENT_ID      => Uuid::uuid4(),
+            Header::EVENT_TYPE    => SomeCommand::class,
+            Header::EVENT_TIME    => $this->app[Clock::class]->fromNow(),
         ];
 
         if (is_array($message)) {

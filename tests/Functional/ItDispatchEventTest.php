@@ -35,7 +35,7 @@ final class ItDispatchEventTest extends OrchestraWithDefaultConfig
 
         $headers = $pastEvent->headers();
 
-        $this->assertEquals(ReportEvent::class, $headers[Header::BUS_NAME]);
+        $this->assertEquals(ReportEvent::class, $headers[Header::REPORTER_NAME]);
         $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
         $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
     }

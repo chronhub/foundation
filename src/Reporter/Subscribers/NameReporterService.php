@@ -21,9 +21,9 @@ final class NameReporterService implements MessageSubscriber
         $tracker->listen(Reporter::DISPATCH_EVENT, function (ContextualMessage $context): void {
             $message = $context->message();
 
-            if ($message->hasNot(Header::BUS_NAME)) {
+            if ($message->hasNot(Header::REPORTER_NAME)) {
                 $context->withMessage(
-                    $message->withHeader(Header::BUS_NAME, $this->name)
+                    $message->withHeader(Header::REPORTER_NAME, $this->name)
                 );
             }
         }, Reporter::PRIORITY_MESSAGE_FACTORY - 1);

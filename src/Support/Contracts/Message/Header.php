@@ -6,9 +6,9 @@ interface Header
 {
     public const EVENT_ID = '__event_id';
     public const EVENT_TYPE = '__event_type';
-    public const EVENT_TIME = '__time';
+    public const EVENT_TIME = '__event_time';
 
-    public const BUS_NAME = '__bus_name';
+    public const REPORTER_NAME = '__reporter_name';
     public const ASYNC_MARKER = '__async_marker';
 
     public const AGGREGATE_ID = '__aggregate_id';

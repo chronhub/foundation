@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Message\Factory;
 
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Content;
 use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
 use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use function is_array;
@@ -26,10 +25,6 @@ final class GenericMessageFactory implements MessageFactory
             return $event;
         }
 
-        if ($event instanceof Content) {
-            return new Message($event->withHeaders([]), $event->headers());
-        }
-
-        return new Message($event, []);
+        return new Message($event);
     }
 }

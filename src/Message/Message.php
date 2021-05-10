@@ -11,9 +11,11 @@ final class Message
 {
     use HasHeaders;
 
-    public function __construct(private object $event, array $headers = [])
+    private object $event;
+
+    public function __construct(object $event, array $headers = [])
     {
-        $this->headers = $this->determineHeaders($event, $headers);
+        $this->setUp($event, $headers);
     }
 
     public function event(): object
@@ -57,20 +59,26 @@ final class Message
         return $this->event instanceof Messaging;
     }
 
-    private function determineHeaders(object $event, array $headers): array
+    private function setUp(object $event, array $headers): void
     {
         if (!$event instanceof Messaging || count($event->headers()) === 0) {
-            return $headers;
+            $this->event = $event;
+            $this->headers = $headers;
+            return;
         }
 
         if (count($headers) === 0) {
-            return $event->headers();
+            $this->event = $event->withHeaders([]);
+            $this->headers = $event->headers();
+
+            return;
         }
 
         if ($headers !== $event->headers()) {
             throw new RuntimeException("Invalid headers consistency for event class " . $event::class);
         }
 
-        return $headers;
+        $this->event = $event->withHeaders([]);
+        $this->headers = $headers;
     }
 }

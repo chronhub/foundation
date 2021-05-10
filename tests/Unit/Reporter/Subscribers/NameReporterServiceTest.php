@@ -34,7 +34,7 @@ final class NameReporterServiceTest extends TestCase
 
         $tracker->fire($context);
 
-        $this->assertEquals($serviceId, $context->message()->header(Header::BUS_NAME));
+        $this->assertEquals($serviceId, $context->message()->header(Header::REPORTER_NAME));
     }
 
     /**
@@ -47,14 +47,14 @@ final class NameReporterServiceTest extends TestCase
         $subscriber = new NameReporterService('reporter.service_id');
         $subscriber->attachToTracker($tracker);
 
-        $message = new Message(new stdClass(), [Header::BUS_NAME => 'my_service_id']);
+        $message = new Message(new stdClass(), [Header::REPORTER_NAME => 'my_service_id']);
 
         $context = $tracker->newContext(Reporter::DISPATCH_EVENT);
         $context->withMessage($message);
 
         $tracker->fire($context);
 
-        $this->assertEquals('my_service_id', $context->message()->header(Header::BUS_NAME));
+        $this->assertEquals('my_service_id', $context->message()->header(Header::REPORTER_NAME));
     }
 
     public function provideReporterServiceId(): Generator

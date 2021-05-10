@@ -41,7 +41,7 @@ final class ItDispatchQueryTest extends OrchestraWithDefaultConfig
 
         $headers = $pastQuery->headers();
 
-        $this->assertEquals(ReportQuery::class, $headers[Header::BUS_NAME]);
+        $this->assertEquals(ReportQuery::class, $headers[Header::REPORTER_NAME]);
         $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
         $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
 
