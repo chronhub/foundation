@@ -8,6 +8,7 @@ use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
 use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
 use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
+use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
 use Chronhub\Foundation\Support\Facade\AliasMessage;
 use Chronhub\Foundation\Support\Facade\Report;
 use Illuminate\Contracts\Foundation\Application;
@@ -23,7 +24,7 @@ class ReporterServiceProvider extends ServiceProvider implements DeferrableProvi
 
     public function register(): void
     {
-        $this->app->singleton(ReporterManager::class);
+        $this->app->singleton(ReporterManager::class, DefaultReporterManager::class);
         $this->app->alias(ReporterManager::class, Report::SERVICE_NAME);
 
         $config = config('reporter');
@@ -42,7 +43,7 @@ class ReporterServiceProvider extends ServiceProvider implements DeferrableProvi
     public function provides(): array
     {
         return [
-            ReporterManager::class,
+            DefaultReporterManager::class,
             Report::SERVICE_NAME,
             MessageFactory::class,
             MessageSerializer::class,
