@@ -199,8 +199,8 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']));
 
         $subscriber = new CallableMessageSubscriber(Reporter::DISPATCH_EVENT,
-            function (ContextualMessage $message): void {
-                $message->withMessage(
+            function (ContextualMessage $context): void {
+                $context->withMessage(
                     new Message(SomeCommand::fromContent(['name' => 'bug']))
                 );
             }, Reporter::PRIORITY_INVOKE_HANDLER + 1);
