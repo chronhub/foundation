@@ -7,22 +7,21 @@ use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 
 final class MessageNameFactory implements MessageFactory
 {
-    public function __construct(private MessageSerializer $serializer)
+    public function __construct(private GenericMessageFactory $factory)
     {
         //
     }
 
-    public function createFromMessage(object|array $event): Message
+    public function createFromMessage(object|array $payload): Message
     {
         // have to define a specific target for reporter
         // in reporter config bus name when dispatching async
         // as it would fail coming back here as default array if async
 
-        if (!is_array($event)) {
+        if (!is_array($payload)) {
             throw new InvalidArgumentException("Message name factory instance can handle array event only");
         }
 
@@ -32,7 +31,7 @@ final class MessageNameFactory implements MessageFactory
             throw new InvalidArgumentException("Missing message name key from array payload");
         }
 
-        if(!class_exists($messageName)){
+        if (!class_exists($messageName)) {
             throw new InvalidArgumentException("Message name must be a fqcn");
         }
 
@@ -43,8 +42,6 @@ final class MessageNameFactory implements MessageFactory
             'content' => $payload['content'] ?? []
         ];
 
-        $event = $this->serializer->unserializeContent($payload)->current();
-
-        return new Message($event->withHeaders([]), $event->headers());
+        return $this->factory->createFromMessage($payload);
     }
 }

@@ -14,11 +14,6 @@ use Illuminate\Support\Arr;
 abstract class AbstractReporterManager implements ReporterManager
 {
     /**
-     * @var array<string,Reporter>
-     */
-    protected array $reporters = [];
-
-    /**
      * @var array<string,callable>
      */
     protected array $customerReporters = [];
@@ -38,32 +33,28 @@ abstract class AbstractReporterManager implements ReporterManager
             return $customerReporter($this->container, $this->config);
         }
 
-        if ($reporter = ($this->reporters[$reporterKey] ?? null)) {
-            return $reporter;
-        }
-
         $config = $this->fromReporter("reporting.$type.$driver");
 
         if (!is_array($config) || empty($config)) {
             throw new ReportFailed("Invalid reporter configuration with $driver driver and $type type");
         }
 
-        return $this->reporters[$reporterKey] = $this->createReporter($type, $config);
+        return $this->createReporter($type, $config);
     }
 
     public function command(string $driver = 'default'): Reporter
     {
-        return $this->create($driver ?? 'default', Messaging::COMMAND);
+        return $this->create($driver, Messaging::COMMAND);
     }
 
     public function event(string $driver = 'default'): Reporter
     {
-        return $this->create($driver ?? 'default', Messaging::EVENT);
+        return $this->create($driver, Messaging::EVENT);
     }
 
     public function query(string $driver = 'default'): Reporter
     {
-        return $this->create($driver ?? 'default', Messaging::QUERY);
+        return $this->create($driver, Messaging::QUERY);
     }
 
     public function extends(string $driver, string $type, callable $reporter): void

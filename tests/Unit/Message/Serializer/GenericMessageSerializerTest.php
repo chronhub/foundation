@@ -6,7 +6,6 @@ use Chronhub\Foundation\Aggregate\GenericAggregateId;
 use Chronhub\Foundation\Clock\UniversalPointInTime;
 use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Message\Payload;
 use Chronhub\Foundation\Message\Serializer\GenericMessageSerializer;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
@@ -50,15 +49,15 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
 
         $serializedEvent = $serializer->serializeMessage($message);
 
-        $payload = new Payload(
+        $payload =
             [
-                Header::EVENT_TYPE => $eventClass,
-                Header::EVENT_ID   => $id->toString(),
-                Header::EVENT_TIME => $time->toString(),
-            ],
-            ['name' => 'steph'],
-            null
-        );
+                'headers' => [
+                    Header::EVENT_TYPE => $eventClass,
+                    Header::EVENT_ID   => $id->toString(),
+                    Header::EVENT_TIME => $time->toString(),
+                ],
+                'content' => ['name' => 'steph'],
+            ];
 
         $this->assertEquals($payload, $serializedEvent);
     }
@@ -80,9 +79,9 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
 
         $serializedEvent = $serializer->serializeMessage($message);
 
-        $this->assertIsString($serializedEvent->headers()[Header::EVENT_ID]);
-        $this->assertEquals(SomeCommand::class, $serializedEvent->headers()[Header::EVENT_TYPE]);
-        $this->assertEquals('some_date_time', $serializedEvent->headers()[Header::EVENT_TIME]);
+        $this->assertIsString($serializedEvent['headers'][Header::EVENT_ID]);
+        $this->assertEquals(SomeCommand::class, $serializedEvent['headers'][Header::EVENT_TYPE]);
+        $this->assertEquals('some_date_time', $serializedEvent['headers'][Header::EVENT_TIME]);
     }
 
     /**
@@ -106,7 +105,7 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
         $serializer = new GenericMessageSerializer($this->clock->reveal(), null);
         $serializedEvent = $serializer->serializeMessage($message);
 
-        $this->assertEquals($serializedEvent->headers()[Header::AGGREGATE_ID], $aggregateId->toString());
+        $this->assertEquals($serializedEvent['headers'][Header::AGGREGATE_ID], $aggregateId->toString());
     }
 
     /**
@@ -328,7 +327,7 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
 
         $event = SomeAggregateChanged::occur(GenericAggregateId::create()->toString(), ['name' => 'steph']);
         $headers = [
-            Header::AGGREGATE_ID => new stdClass(),
+            Header::AGGREGATE_ID      => new stdClass(),
             Header::AGGREGATE_ID_TYPE => GenericAggregateId::class,
         ];
 

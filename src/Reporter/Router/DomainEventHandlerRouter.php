@@ -6,7 +6,7 @@ namespace Chronhub\Foundation\Reporter\Router;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Reporter\Router;
 
-final class MultipleHandlerRouter implements Router
+final class DomainEventHandlerRouter implements Router
 {
     public function __construct(private Router $router)
     {

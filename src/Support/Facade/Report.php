@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Facade;
  */
 final class Report extends Facade
 {
-    public const SERVICE_NAME = 'chronhub.reporter.manager';
+    public const SERVICE_NAME = 'foundation.reporter.manager';
 
     protected static function getFacadeAccessor(): string
     {

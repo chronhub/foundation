@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Facade;
  */
 final class AliasMessage extends Facade
 {
-    public const SERVICE_NAME = 'chronhub.message.alias';
+    public const SERVICE_NAME = 'foundation.message.alias';
 
     protected static function getFacadeAccessor(): string
     {

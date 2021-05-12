@@ -6,7 +6,7 @@ namespace Chronhub\Foundation\Message\Serializer;
 use Chronhub\Foundation\Aggregate\AggregateChanged;
 use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Message\Payload;
+use Chronhub\Foundation\Support\Attribute\Payload;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
@@ -28,7 +28,8 @@ final class GenericMessageSerializer implements MessageSerializer
         $this->contentSerializer = $contentSerializer ?? new GenericContentSerializer();
     }
 
-    public function serializeMessage(Message $message): Payload
+    #[Payload(['headers' => "array", 'content' => "array"])]
+    public function serializeMessage(Message $message): array
     {
         $event = $message->event();
 
@@ -53,13 +54,13 @@ final class GenericMessageSerializer implements MessageSerializer
             $headers[Header::AGGREGATE_ID] = $headers[Header::AGGREGATE_ID]->toString();
         }
 
-        return new Payload(
-            $headers,
-            $this->contentSerializer->serialize($event),
-            null
-        );
+        return [
+            'headers' => $headers,
+            'content' => $this->contentSerializer->serialize($event)
+        ];
     }
 
+    #[Payload]
     public function unserializeContent(array $payload): Generator
     {
         $headers = $payload['headers'];

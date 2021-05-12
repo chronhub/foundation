@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Tests\Unit\Message\Producer;
 
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Message\Payload;
 use Chronhub\Foundation\Message\Producer\IlluminateQueue;
 use Chronhub\Foundation\Message\Producer\MessageJob;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
@@ -27,7 +26,11 @@ final class IlluminateProducerTest extends TestCaseWithProphecy
 
         $message = new Message(new stdClass(), [Header::REPORTER_NAME => 'some_bus']);
 
-        $payload = new Payload([], ['foo' => 'bar'], null);
+        $payload = [
+            'headers' => [],
+            'content' => ['foo' => 'bar']
+        ];
+
         $serializer->serializeMessage($message)->willReturn($payload)->shouldBeCalled();
 
         $job = new MessageJob([

@@ -13,6 +13,7 @@ final class MakeMessage implements MessageSubscriber
 {
     public function __construct(private MessageFactory $factory)
     {
+        //
     }
 
     public function attachToTracker(MessageTracker $tracker): void

@@ -15,9 +15,9 @@ use function get_called_class;
 
 trait HasReporter
 {
-    private MessageTracker $tracker;
+    protected MessageTracker $tracker;
 
-    public function __construct(private ?string $name = null, ?MessageTracker $tracker = null)
+    public function __construct(protected ?string $name = null, ?MessageTracker $tracker = null)
     {
         $this->tracker = $tracker ?? new TrackMessage();
     }

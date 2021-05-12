@@ -28,7 +28,7 @@ final class IlluminateQueue implements MessageQueue
 
     private function toMessageJob(Message $message): object
     {
-        $payload = $this->messageSerializer->serializeMessage($message)->toArray();
+        $payload = $this->messageSerializer->serializeMessage($message);
 
         return new MessageJob(
             $payload,

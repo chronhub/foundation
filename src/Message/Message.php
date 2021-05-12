@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message;
 
+use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Headers\HasHeaders;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
@@ -61,6 +62,10 @@ final class Message
 
     private function setUp(object $event, array $headers): void
     {
+        if ($event instanceof self) {
+            throw new InvalidArgumentException("Message event can not be an instance of " . $this::class);
+        }
+
         if (!$event instanceof Messaging || count($event->headers()) === 0) {
             $this->event = $event;
             $this->headers = $headers;
@@ -75,7 +80,7 @@ final class Message
         }
 
         if ($headers !== $event->headers()) {
-            throw new RuntimeException("Invalid headers consistency for event class " . $event::class);
+            throw new RuntimeException("Invalid consistency headers for event class " . $event::class);
         }
 
         $this->event = $event->withHeaders([]);

@@ -10,7 +10,7 @@ use Chronhub\Foundation\Message\Producer\SyncMessageProducer;
 use Chronhub\Foundation\Reporter\ReportCommand;
 use Chronhub\Foundation\Reporter\ReportEvent;
 use Chronhub\Foundation\Reporter\ReportQuery;
-use Chronhub\Foundation\Reporter\Router\MultipleHandlerRouter;
+use Chronhub\Foundation\Reporter\Router\DomainEventHandlerRouter;
 use Chronhub\Foundation\Reporter\Router\ReporterRouter;
 use Chronhub\Foundation\Reporter\Router\SingleHandlerRouter;
 use Chronhub\Foundation\Reporter\Subscribers\ChainMessageDecoratorSubscriber;
@@ -85,7 +85,7 @@ final class DefaultReporterManager extends AbstractReporterManager
 
         $reporterRouter = match ($type) {
             'command', 'query' => new SingleHandlerRouter($router),
-            'event' => new MultipleHandlerRouter($router)
+            'event' => new DomainEventHandlerRouter($router)
         };
 
         $messageProducer = $this->createMessageProducer($type, $config['messaging']['producer'] ?? null);

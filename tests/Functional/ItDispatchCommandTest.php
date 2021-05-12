@@ -109,7 +109,8 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
                         $pastCommand = $command;
                     }
                 ]
-            ]];
+            ]
+        ];
 
         $this->app['config']->set('reporter.reporting.command', $defaultConfig);
 

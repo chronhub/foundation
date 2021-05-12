@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message;
 
+use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\DomainCommand;
 use Chronhub\Foundation\Message\DomainEvent;
@@ -56,6 +57,17 @@ final class MessageTest extends TestCaseWithProphecy
 
         $this->assertTrue($message->has(Header::EVENT_ID));
         $this->assertEquals('123', $message->header(Header::EVENT_ID));
+    }
+
+    /**
+     * @test
+     */
+    public function it_raise_exception_if_message_event_is_an_instance_of_message(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Message event can not be an instance of ' . Message::class);
+
+        new Message(new Message(new stdclass()));
     }
 
     /**
@@ -133,7 +145,7 @@ final class MessageTest extends TestCaseWithProphecy
     public function it_raise_exception_when_message_headers_does_not_match_event_messaging_headers(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Invalid headers consistency for event class ' . SomeCommand::class);
+        $this->expectExceptionMessage('Invalid consistency headers for event class ' . SomeCommand::class);
 
         $event = SomeCommand::fromContent(['name' => 'steph']);
         $event = $event->withHeaders(['some' => 'header']);

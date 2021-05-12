@@ -5,13 +5,14 @@ namespace Chronhub\Foundation\Reporter;
 
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Throwable;
+use function array_shift;
 
 class ReportCommand implements Reporter
 {
     use HasReporter;
 
-    private array $queue = [];
-    private bool $isDispatching = false;
+    protected array $queue = [];
+    protected bool $isDispatching = false;
 
     public function publish(object|array $message)
     {

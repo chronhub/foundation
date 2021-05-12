@@ -96,13 +96,6 @@ final class ReporterManagerTest extends TestCaseWithOrchestra
             'reporter_command' => [
                 'service_id'     => 'reporter_command',
                 'concrete'       => stdClass::class,
-                'tracker_id'     => null,
-                'handler_method' => 'command',
-                'messaging'      => [
-                    'decorators'  => [],
-                    'subscribers' => [],
-                    'producer'    => 'default',
-                ],
                 'map'            => []
             ]
         ];
