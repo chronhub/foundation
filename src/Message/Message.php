@@ -37,7 +37,7 @@ final class Message
         return clone $this->event;
     }
 
-    public function withHeader(string $key, $value): Message
+    public function withHeader(string $key, mixed $value): Message
     {
         $message = clone $this;
 
