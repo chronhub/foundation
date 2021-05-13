@@ -17,6 +17,7 @@ use Generator;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use function get_class;
+use function is_string;
 
 final class GenericMessageSerializer implements MessageSerializer
 {
