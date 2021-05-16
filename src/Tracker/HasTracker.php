@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tracker;
 
-use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
 use Chronhub\Foundation\Support\Contracts\Tracker\Listener;
+use Chronhub\Foundation\Support\Contracts\Tracker\OneTimeListener;
+use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
 use Illuminate\Support\Collection;
 
 trait HasTracker
@@ -50,6 +51,10 @@ trait HasTracker
             ->filter(fn(Listener $subscriber) => $currentEvent === $subscriber->eventName())
             ->sortByDesc(fn(Listener $subscriber): int => $subscriber->priority(), SORT_NUMERIC)
             ->each(fn(Listener $listener): bool => $this->handleSubscriber($listener, $context, $callback));
+
+        $this->listeners = $this->listeners->reject(
+            fn(Listener $listener): bool => $listener instanceof OneTimeListener
+        );
     }
 
     private function handleSubscriber(Listener $listener, TrackerContext $context, ?callable $callback): bool
