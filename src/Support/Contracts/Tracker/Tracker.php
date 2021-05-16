@@ -13,6 +13,14 @@ interface Tracker
     public function listen(string $eventName, callable $eventContext, int $priority = 0): Listener;
 
     /**
+     * @param string   $eventName
+     * @param callable $eventContext
+     * @param int      $priority
+     * @return OneTimeListener
+     */
+    public function listenOnce(string $eventName, callable $eventContext, int $priority = 0): OneTimeListener;
+
+    /**
      * @param TrackerContext $context
      */
     public function fire(TrackerContext $context): void;

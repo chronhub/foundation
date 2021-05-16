@@ -26,6 +26,15 @@ trait HasTracker
         return $eventSubscriber;
     }
 
+    public function listenOnce(string $eventName, callable $eventContext, int $priority = 0): OneTimeListener
+    {
+        $eventSubscriber = new GenericOnceListener($eventName, $eventContext, $priority);
+
+        $this->listeners->push($eventSubscriber);
+
+        return $eventSubscriber;
+    }
+
     public function fire(TrackerContext $context): void
     {
         $this->fireEvent($context, null);
