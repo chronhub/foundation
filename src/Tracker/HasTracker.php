@@ -61,9 +61,9 @@ trait HasTracker
             ->sortByDesc(fn(Listener $subscriber): int => $subscriber->priority(), SORT_NUMERIC)
             ->each(fn(Listener $listener): bool => $this->handleSubscriber($listener, $context, $callback));
 
-        $this->listeners = $this->listeners->reject(
-            fn(Listener $listener): bool => $listener instanceof OneTimeListener
-        );
+        $this->listeners = $this->listeners
+            ->filter(fn(Listener $subscriber) => $currentEvent === $subscriber->eventName())
+            ->reject(fn(Listener $listener): bool => $listener instanceof OneTimeListener);
     }
 
     private function handleSubscriber(Listener $listener, TrackerContext $context, ?callable $callback): bool
