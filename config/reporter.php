@@ -18,7 +18,7 @@ return [
                         //\Chronhub\Foundation\Message\Decorator\AsyncMarkerMessageDecorator::class,
                     ],
                     'subscribers' => [
-                        // logger validation
+                        //\Chronhub\Foundation\Reporter\Subscribers\LogDomainCommand::class,
                         \Chronhub\Foundation\Reporter\Subscribers\HandleCommand::class,
                     ],
                     'producer'    => 'default',
