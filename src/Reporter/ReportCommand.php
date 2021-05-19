@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter;
 
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Throwable;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use function array_shift;
 
 class ReportCommand implements Reporter

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support;
 
+use React\Promise\PromiseInterface;
+use Illuminate\Contracts\Container\Container;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
-use Illuminate\Contracts\Container\Container;
-use React\Promise\PromiseInterface;
 
 final class Publisher
 {

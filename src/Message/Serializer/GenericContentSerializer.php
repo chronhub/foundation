@@ -6,8 +6,8 @@ namespace Chronhub\Foundation\Message\Serializer;
 
 use Chronhub\Foundation\Aggregate\AggregateChanged;
 use Chronhub\Foundation\Exception\RuntimeException;
-use Chronhub\Foundation\Support\Contracts\Message\Content;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Support\Contracts\Message\Content;
 
 final class GenericContentSerializer
 {

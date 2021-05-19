@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message;
 
-use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Headers\HasHeaders;
+use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 
 final class Message

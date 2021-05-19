@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Producer;
 
-use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Content;
+use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
+use Chronhub\Foundation\Support\Contracts\Message\Content;
 use Chronhub\Foundation\Support\Contracts\Message\MessageQueue;
+use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
 
 abstract class AbstractMessageProducer implements MessageProducer
 {

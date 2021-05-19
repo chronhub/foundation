@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Clock;
 
+use DateTimeImmutable;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use DateTimeImmutable;
 
 final class UniversalSystemClock implements Clock
 {

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
 
-use Chronhub\Foundation\Exception\ReportFailed;
-use Chronhub\Foundation\Exception\ValidationMessageFailed;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Content;
+use Illuminate\Contracts\Validation\Factory;
+use Chronhub\Foundation\Exception\ReportFailed;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\PreValidationMessage;
-use Chronhub\Foundation\Support\Contracts\Message\ValidationMessage;
+use Chronhub\Foundation\Exception\ValidationMessageFailed;
+use Chronhub\Foundation\Support\Contracts\Message\Content;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
+use Chronhub\Foundation\Support\Contracts\Message\ValidationMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
-use Illuminate\Contracts\Validation\Factory;
+use Chronhub\Foundation\Support\Contracts\Message\PreValidationMessage;
 
 final class ValidateCommand implements MessageSubscriber
 {

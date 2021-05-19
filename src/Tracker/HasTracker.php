@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tracker;
 
-use Chronhub\Foundation\Support\Contracts\Tracker\Listener;
-use Chronhub\Foundation\Support\Contracts\Tracker\OneTimeListener;
-use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
 use Illuminate\Support\Collection;
+use Chronhub\Foundation\Support\Contracts\Tracker\Listener;
+use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
+use Chronhub\Foundation\Support\Contracts\Tracker\OneTimeListener;
 
 trait HasTracker
 {

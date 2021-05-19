@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Services;
 
-use Chronhub\Foundation\Exception\ReportFailed;
-use Chronhub\Foundation\Message\Decorator\ChainDecorators;
-use Chronhub\Foundation\Message\Producer\IlluminateQueue;
-use Chronhub\Foundation\Message\Producer\SyncMessageProducer;
-use Chronhub\Foundation\Reporter\ReportCommand;
+use Illuminate\Support\Arr;
 use Chronhub\Foundation\Reporter\ReportEvent;
 use Chronhub\Foundation\Reporter\ReportQuery;
-use Chronhub\Foundation\Reporter\Router\DomainEventHandlerRouter;
+use Chronhub\Foundation\Exception\ReportFailed;
+use Chronhub\Foundation\Reporter\ReportCommand;
+use Illuminate\Contracts\Bus\QueueingDispatcher;
 use Chronhub\Foundation\Reporter\Router\ReporterRouter;
-use Chronhub\Foundation\Reporter\Router\SingleHandlerRouter;
-use Chronhub\Foundation\Reporter\Subscribers\ChainMessageDecoratorSubscriber;
+use Chronhub\Foundation\Message\Producer\IlluminateQueue;
+use Chronhub\Foundation\Message\Decorator\ChainDecorators;
 use Chronhub\Foundation\Reporter\Subscribers\HandleRouter;
-use Chronhub\Foundation\Reporter\Subscribers\NameReporterService;
-use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
-use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
+use Chronhub\Foundation\Reporter\Router\SingleHandlerRouter;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Message\Producer\SyncMessageProducer;
+use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
+use Chronhub\Foundation\Reporter\Router\DomainEventHandlerRouter;
+use Chronhub\Foundation\Reporter\Subscribers\NameReporterService;
+use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
-use Illuminate\Contracts\Bus\QueueingDispatcher;
-use Illuminate\Support\Arr;
+use Chronhub\Foundation\Reporter\Subscribers\ChainMessageDecoratorSubscriber;
+use function is_array;
+use function is_string;
 
 final class DefaultReporterManager extends AbstractReporterManager
 {

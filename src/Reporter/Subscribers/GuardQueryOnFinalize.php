@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
 
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
 use React\Promise\PromiseInterface;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
+use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 
 final class GuardQueryOnFinalize extends AbstractGuardQuery
 {

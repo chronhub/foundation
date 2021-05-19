@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Services;
 
+use Illuminate\Support\Arr;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 use Chronhub\Foundation\Exception\ReportFailed;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Arr;
 
 abstract class AbstractReporterManager implements ReporterManager
 {

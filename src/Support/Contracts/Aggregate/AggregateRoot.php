@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Contracts\Aggregate;
 
-use Chronhub\Foundation\Message\DomainEvent;
 use Generator;
+use Chronhub\Foundation\Message\DomainEvent;
 
 interface AggregateRoot
 {

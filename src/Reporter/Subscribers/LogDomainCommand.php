@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
 
+use Psr\Log\LoggerInterface;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
-use Psr\Log\LoggerInterface;
 use function is_array;
 use function serialize;
 

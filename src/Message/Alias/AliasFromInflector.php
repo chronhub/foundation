@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Alias;
 
+use Illuminate\Support\Str;
 use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
-use Illuminate\Support\Str;
 
 final class AliasFromInflector implements MessageAlias
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Aggregate;
 
-use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use function get_class;
 
 trait HasAggregateIdentity

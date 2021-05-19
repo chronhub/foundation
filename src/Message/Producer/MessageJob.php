@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Producer;
 
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Container\Container;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
 
 final class MessageJob
 {

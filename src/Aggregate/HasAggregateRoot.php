@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Aggregate;
 
+use Generator;
 use Chronhub\Foundation\Message\DomainEvent;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateRoot;
-use Generator;
 
 trait HasAggregateRoot
 {

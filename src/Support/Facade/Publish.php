@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Facade;
 
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
 use Illuminate\Support\Facades\Facade;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
 
 /**
  * @method static command(array|object $command)

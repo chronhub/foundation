@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Router;
 
-use Chronhub\Foundation\Exception\ReportFailed;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
-use Chronhub\Foundation\Support\Contracts\Reporter\Router;
 use Closure;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Collection;
+use Chronhub\Foundation\Message\Message;
+use Illuminate\Contracts\Container\Container;
+use Chronhub\Foundation\Exception\ReportFailed;
+use Chronhub\Foundation\Support\Contracts\Reporter\Router;
+use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
 
 final class ReporterRouter implements Router
 {

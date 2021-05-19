@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tracker;
 
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage as Context;
 use Generator;
 use React\Promise\PromiseInterface;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage as Context;
 
 final class ContextualMessage implements Context
 {

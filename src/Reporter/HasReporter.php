@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter;
 
-use Chronhub\Foundation\Exception\MessageDispatchFailed;
+use Throwable;
+use Chronhub\Foundation\Tracker\TrackMessage;
 use Chronhub\Foundation\Exception\MessageNotHandled;
+use Chronhub\Foundation\Exception\MessageDispatchFailed;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
-use Chronhub\Foundation\Tracker\TrackMessage;
-use Throwable;
 use function get_called_class;
 
 trait HasReporter

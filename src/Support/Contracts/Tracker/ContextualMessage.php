@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Contracts\Tracker;
 
-use Chronhub\Foundation\Message\Message;
 use Generator;
 use React\Promise\PromiseInterface;
+use Chronhub\Foundation\Message\Message;
 
 interface ContextualMessage extends TrackerContext
 {

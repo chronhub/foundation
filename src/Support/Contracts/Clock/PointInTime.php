@@ -9,6 +9,9 @@ use DateTimeImmutable;
 
 interface PointInTime
 {
+    /**
+     * @return static
+     */
     public static function fromString(string $pointInTime): self;
 
     /**
@@ -16,6 +19,9 @@ interface PointInTime
      */
     public static function fromDateTime(DateTimeImmutable $dateTime): self;
 
+    /**
+     * @return static
+     */
     public static function now(): self;
 
     public function equals(PointInTime $pointInTime): bool;

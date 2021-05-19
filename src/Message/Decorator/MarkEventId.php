@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Decorator;
 
+use Ramsey\Uuid\Uuid;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\MessageDecorator;
-use Ramsey\Uuid\Uuid;
 
 final class MarkEventId implements MessageDecorator
 {

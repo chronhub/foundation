@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Factory;
 
-use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
 
 final class MessageNameFactory implements MessageFactory

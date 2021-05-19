@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tracker;
 
-use Chronhub\Foundation\Support\Contracts\Tracker\OneTimeListener;
 use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
+use Chronhub\Foundation\Support\Contracts\Tracker\OneTimeListener;
 
 final class GenericOnceListener implements OneTimeListener
 {

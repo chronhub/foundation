@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Traits;
 
-use React\Promise\PromiseInterface;
 use Throwable;
+use React\Promise\PromiseInterface;
 
 trait HandlePromise
 {

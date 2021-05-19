@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use React\Promise\PromiseInterface;
+use Chronhub\Foundation\Support\PromiseHandler;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\PromiseHandler;
-use React\Promise\PromiseInterface;
 
 if ( ! function_exists('clock')) {
     function clock(): Clock

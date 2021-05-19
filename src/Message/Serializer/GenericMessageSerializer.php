@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Serializer;
 
-use Chronhub\Foundation\Aggregate\AggregateChanged;
-use Chronhub\Foundation\Exception\RuntimeException;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Attribute\Payload;
-use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
-use Chronhub\Foundation\Support\Contracts\Clock\Clock;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\Contracts\Message\Content;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use Generator;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Support\Attribute\Payload;
+use Chronhub\Foundation\Aggregate\AggregateChanged;
+use Chronhub\Foundation\Exception\RuntimeException;
+use Chronhub\Foundation\Support\Contracts\Clock\Clock;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Support\Contracts\Message\Content;
+use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
+use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use function get_class;
 use function is_string;
 

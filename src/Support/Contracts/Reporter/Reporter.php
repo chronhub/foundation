@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Contracts\Reporter;
 
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
 use React\Promise\PromiseInterface;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
 
 interface Reporter
 {

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Services;
 
+use Illuminate\Support\ServiceProvider;
+use Chronhub\Foundation\Support\Publisher;
+use Chronhub\Foundation\Support\Facade\Report;
+use Chronhub\Foundation\Support\Facade\Publish;
+use Illuminate\Contracts\Foundation\Application;
 use Chronhub\Foundation\Clock\UniversalSystemClock;
+use Chronhub\Foundation\Support\Facade\AliasMessage;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
 use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
-use Chronhub\Foundation\Support\Facade\AliasMessage;
-use Chronhub\Foundation\Support\Facade\Publish;
-use Chronhub\Foundation\Support\Facade\Report;
-use Chronhub\Foundation\Support\Publisher;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\ServiceProvider;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 
 class ReporterServiceProvider extends ServiceProvider implements DeferrableProvider
 {
