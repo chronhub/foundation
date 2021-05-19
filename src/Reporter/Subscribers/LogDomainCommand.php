@@ -82,15 +82,26 @@ final class LogDomainCommand implements MessageSubscriber
         }, Reporter::PRIORITY_INVOKE_HANDLER + 1);
 
         $tracker->listen(Reporter::FINALIZE_EVENT, function (ContextualMessage $context): void {
-            $this->logger->debug('On finalize message command', [
+            $this->logger->debug('On pre finalize message command', [
                 'context' => [
                     'message_name'    => $this->determineMessageName($context->message()),
                     'message_handled' => $context->isMessageHandled(),
-                    'is_sync'         => $context->message()->header(Header::ASYNC_MARKER),
+                    'async_marker' => $context->message()->header(Header::ASYNC_MARKER),
                     'exception'       => $context->exception(),
                 ]
             ]);
-        }, 1);
+        }, 100000);
+
+        $tracker->listen(Reporter::FINALIZE_EVENT, function (ContextualMessage $context): void {
+            $this->logger->debug('On post finalize message command', [
+                'context' => [
+                    'message_name'    => $this->determineMessageName($context->message()),
+                    'message_handled' => $context->isMessageHandled(),
+                    'async_marker' => $context->message()->header(Header::ASYNC_MARKER),
+                    'exception'       => $context->exception(),
+                ]
+            ]);
+        }, -100000);
     }
 
     private function determineMessageName(Message|array $message): string
