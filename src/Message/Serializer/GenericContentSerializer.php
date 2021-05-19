@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Serializer;
@@ -27,6 +28,6 @@ final class GenericContentSerializer
             return $source::fromContent($payload['content']);
         }
 
-        throw new RuntimeException("Invalid source");
+        throw new RuntimeException('Invalid source');
     }
 }

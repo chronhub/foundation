@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter;
@@ -27,7 +28,7 @@ trait HasReporter
         try {
             $this->tracker->fire($context);
 
-            if (!$context->isMessageHandled()) {
+            if ( ! $context->isMessageHandled()) {
                 $messageName = $context->message()->header(Header::EVENT_TYPE);
 
                 throw MessageNotHandled::withMessageName($messageName);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chronhub\Foundation\Support\Contracts\Reporter;
 
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
@@ -18,6 +20,7 @@ interface Reporter
 
     /**
      * @param object|array $message
+     *
      * @return void|PromiseInterface
      */
     public function publish(object|array $message);
@@ -27,8 +30,5 @@ interface Reporter
      */
     public function subscribe(MessageSubscriber ...$messageSubscribers): void;
 
-    /**
-     * @return string
-     */
     public function name(): string;
 }

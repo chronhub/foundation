@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Factory;
@@ -12,7 +13,6 @@ final class GenericMessageFactory implements MessageFactory
 {
     public function __construct(private MessageSerializer $serializer)
     {
-        //
     }
 
     public function createFromMessage(object|array $event): Message

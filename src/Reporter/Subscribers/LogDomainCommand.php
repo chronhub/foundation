@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
@@ -26,15 +27,15 @@ final class LogDomainCommand implements MessageSubscriber
         $tracker->listen(Reporter::DISPATCH_EVENT, function (ContextualMessage $context): void {
             $message = $context->transientMessage();
 
-            if (!is_array($message)) {
+            if ( ! is_array($message)) {
                 return;
             }
 
             $this->logger->debug('On dispatch to factory array command', [
                 'context' => [
                     'message_name' => $this->determineMessageName($message),
-                    'message'      => $message
-                ]
+                    'message'      => $message,
+                ],
             ]);
         }, Reporter::PRIORITY_MESSAGE_FACTORY + 1);
 
@@ -49,8 +50,8 @@ final class LogDomainCommand implements MessageSubscriber
                 'context' => [
                     'message_name' => $this->determineMessageName($message),
                     'exception'    => $context->exception(),
-                    'message'      => $serializedMessage
-                ]
+                    'message'      => $serializedMessage,
+                ],
             ]);
         }, Reporter::PRIORITY_ROUTE - 1);
 
@@ -60,7 +61,7 @@ final class LogDomainCommand implements MessageSubscriber
                     'message_name' => $this->determineMessageName($context->message()),
                     'async_marker' => $context->message()->header(Header::ASYNC_MARKER),
                     'exception'    => $context->exception(),
-                ]
+                ],
             ]);
         }, Reporter::PRIORITY_ROUTE - 1);
 
@@ -76,8 +77,8 @@ final class LogDomainCommand implements MessageSubscriber
                     'message_name'         => $this->determineMessageName($message),
                     'has_message_handlers' => iterator_count($context->messageHandlers()) > 0,
                     'exception'            => $context->exception(),
-                    'message'              => $serializedMessage
-                ]
+                    'message'              => $serializedMessage,
+                ],
             ]);
         }, Reporter::PRIORITY_INVOKE_HANDLER + 1);
 
@@ -88,7 +89,7 @@ final class LogDomainCommand implements MessageSubscriber
                     'message_handled' => $context->isMessageHandled(),
                     'async_marker' => $context->message()->header(Header::ASYNC_MARKER),
                     'exception'       => $context->exception(),
-                ]
+                ],
             ]);
         }, 100000);
 
@@ -99,7 +100,7 @@ final class LogDomainCommand implements MessageSubscriber
                     'message_handled' => $context->isMessageHandled(),
                     'async_marker' => $context->message()->header(Header::ASYNC_MARKER),
                     'exception'       => $context->exception(),
-                ]
+                ],
             ]);
         }, -100000);
     }

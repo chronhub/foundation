@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Aggregate;
@@ -15,7 +16,6 @@ trait HasAggregateRoot
 
     protected function __construct(private AggregateId $aggregateId)
     {
-        //
     }
 
     public function aggregateId(): AggregateId
@@ -61,7 +61,7 @@ trait HasAggregateRoot
             $aggregateRoot->apply($event);
         }
 
-        $aggregateRoot->version = (int)$events->getReturn();
+        $aggregateRoot->version = (int) $events->getReturn();
 
         return $aggregateRoot->version() > 0 ? $aggregateRoot : null;
     }

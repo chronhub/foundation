@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Decorator;
@@ -12,7 +13,6 @@ final class MarkEventTime implements MessageDecorator
 {
     public function __construct(private Clock $clock)
     {
-        //
     }
 
     public function decorate(Message $message): Message

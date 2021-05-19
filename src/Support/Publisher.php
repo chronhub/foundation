@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support;
@@ -18,7 +19,6 @@ final class Publisher
     public function __construct(private ReporterManager $reporterManager,
                                 private Container $container)
     {
-        //
     }
 
     public function command(array|object $command): void
@@ -79,9 +79,8 @@ final class Publisher
     }
 
     /**
-     * Attach dynamic message subscribers to reporter instance
+     * Attach dynamic message subscribers to reporter instance.
      *
-     * @param Reporter $reporter
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function handleSubscribers(Reporter $reporter): void

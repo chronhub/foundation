@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message;
@@ -8,7 +9,7 @@ use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 
 abstract class Domain implements Messaging
 {
-     use HasHeaders;
+    use HasHeaders;
 
     final protected function __construct(protected array $content)
     {

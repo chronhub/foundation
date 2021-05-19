@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Decorator;
@@ -11,7 +12,7 @@ final class MarkAsync implements MessageDecorator
 {
     public function decorate(Message $message): Message
     {
-        if (!$message->isMessaging()) {
+        if ( ! $message->isMessaging()) {
             return $message;
         }
 

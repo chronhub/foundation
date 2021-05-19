@@ -102,7 +102,7 @@ final class ReportCommandTest extends TestCase
                 parent::__construct($reporter, $tracker);
             }
 
-            public function publish(object|array $message)
+            public function publish(object|array $message): void
             {
                 $this->test->assertEmpty($this->queue);
 

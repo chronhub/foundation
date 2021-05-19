@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Services;
@@ -35,7 +36,7 @@ abstract class AbstractReporterManager implements ReporterManager
 
         $config = $this->fromReporter("reporting.$type.$driver");
 
-        if (!is_array($config) || empty($config)) {
+        if ( ! is_array($config) || empty($config)) {
             throw new ReportFailed("Invalid reporter configuration with $driver driver and $type type");
         }
 
@@ -68,7 +69,7 @@ abstract class AbstractReporterManager implements ReporterManager
 
     protected function determineReporterKey(string $driver, string $type): string
     {
-        if (!in_array($type, Messaging::TYPES, true)) {
+        if ( ! in_array($type, Messaging::TYPES, true)) {
             throw new ReportFailed("Reporter type $type is invalid");
         }
 

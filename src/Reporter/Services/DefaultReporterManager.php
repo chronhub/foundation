@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Services;
@@ -48,7 +49,7 @@ final class DefaultReporterManager extends AbstractReporterManager
             };
         }
 
-        if (!is_subclass_of($concrete, Reporter::class)) {
+        if ( ! is_subclass_of($concrete, Reporter::class)) {
             throw new ReportFailed("Invalid Reporter class name $concrete");
         }
 
@@ -66,7 +67,7 @@ final class DefaultReporterManager extends AbstractReporterManager
             $this->fromReporter('messaging.subscribers'),
             $config['messaging']['subscribers'] ?? [],
             $this->chainMessageDecoratorsSubscribers($config),
-            $this->reporterRouterSubscriber($type, $config)
+            $this->reporterRouterSubscriber($type, $config),
         ]);
 
         $reporter->subscribe(...$subscribers);
@@ -95,17 +96,17 @@ final class DefaultReporterManager extends AbstractReporterManager
 
     protected function createMessageProducer(string $type, ?string $strategy): MessageProducer
     {
-        if (null === $strategy || $strategy === 'default') {
+        if (null === $strategy || 'default' === $strategy) {
             $strategy = $this->fromReporter('messaging.producer.default');
         }
 
-        if ($type === Messaging::QUERY || $strategy === 'sync') {
+        if (Messaging::QUERY === $type || 'sync' === $strategy) {
             return new SyncMessageProducer();
         }
 
         $config = $this->fromReporter("messaging.producer.$strategy");
 
-        if (!is_array($config) || empty($config)) {
+        if ( ! is_array($config) || empty($config)) {
             throw new ReportFailed("Invalid message producer config for strategy $strategy");
         }
 

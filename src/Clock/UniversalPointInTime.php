@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Clock;
@@ -26,8 +27,8 @@ final class UniversalPointInTime implements PointInTime
 
         $dateTime = DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $dateTime, $timeZone);
 
-        if (!$dateTime) {
-            throw new InvalidArgumentException("Invalid date time");
+        if ( ! $dateTime) {
+            throw new InvalidArgumentException('Invalid date time');
         }
 
         return new self($dateTime);
@@ -92,8 +93,8 @@ final class UniversalPointInTime implements PointInTime
 
     private function assertSamePointInTime(PointInTime $pointInTime): void
     {
-        if (!$pointInTime instanceof UniversalPointInTime) {
-            throw new InvalidArgumentException("Can not operate on two different point in time classes");
+        if ( ! $pointInTime instanceof UniversalPointInTime) {
+            throw new InvalidArgumentException('Can not operate on two different point in time classes');
         }
     }
 

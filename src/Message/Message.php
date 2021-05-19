@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message;
@@ -63,16 +64,17 @@ final class Message
     private function setUp(object $event, array $headers): void
     {
         if ($event instanceof self) {
-            throw new InvalidArgumentException("Message event can not be an instance of " . $this::class);
+            throw new InvalidArgumentException('Message event can not be an instance of ' . $this::class);
         }
 
-        if (!$event instanceof Messaging || count($event->headers()) === 0) {
+        if ( ! $event instanceof Messaging || 0 === count($event->headers())) {
             $this->event = $event;
             $this->headers = $headers;
+
             return;
         }
 
-        if (count($headers) === 0) {
+        if (0 === count($headers)) {
             $this->event = $event->withHeaders([]);
             $this->headers = $event->headers();
 
@@ -80,7 +82,7 @@ final class Message
         }
 
         if ($headers !== $event->headers()) {
-            throw new RuntimeException("Invalid consistency headers for event class " . $event::class);
+            throw new RuntimeException('Invalid consistency headers for event class ' . $event::class);
         }
 
         $this->event = $event->withHeaders([]);

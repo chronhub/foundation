@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Producer;
@@ -10,6 +11,6 @@ final class PerMessageProducer extends AbstractMessageProducer
 {
     protected function isSyncWithStrategy(Message $message): bool
     {
-        return !$message->event() instanceof AsyncMessage;
+        return ! $message->event() instanceof AsyncMessage;
     }
 }

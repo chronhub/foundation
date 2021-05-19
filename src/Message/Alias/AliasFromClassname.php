@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Alias;
@@ -10,7 +11,7 @@ final class AliasFromClassname implements MessageAlias
 {
     public function classToAlias(string $eventClass): string
     {
-        if(!class_exists($eventClass)){
+        if ( ! class_exists($eventClass)) {
             throw new InvalidArgumentException("Event class $eventClass does not exists");
         }
 

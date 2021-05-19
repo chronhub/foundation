@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Producer;
@@ -25,8 +26,6 @@ final class MessageJob
     }
 
     /**
-     * @param Queue      $queue
-     * @param MessageJob $messageJob
      * @internal
      */
     public function queue(Queue $queue, MessageJob $messageJob): void

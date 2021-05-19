@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Facade;
@@ -11,9 +12,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static event(array|object $event)
  * @method static query(array|object $query)
  * @method static queryHandled(array|object $query)
- * @method static withDriver(string $driver) default as 'default'
+ * @method static withDriver(string $driver)                                default as 'default'
  * @method static withSubscribers(string|MessageSubscriber ...$subscribers)
- * @method static withRaisePromiseException(bool $raisePromiseException) default to true
+ * @method static withRaisePromiseException(bool $raisePromiseException)    default to true
  */
 final class Publish extends Facade
 {
@@ -21,7 +22,7 @@ final class Publish extends Facade
 
     protected static function getFacadeAccessor(): string
     {
-        /**
+        /*
          * Do not act as singleton
          *
          * @see https://github.com/laravel/ideas/issues/1088

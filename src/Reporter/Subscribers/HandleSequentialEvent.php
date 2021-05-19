@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
@@ -14,7 +15,6 @@ final class HandleSequentialEvent implements MessageSubscriber
 {
     public function __construct(private bool $raiseCollectedExceptions)
     {
-        //
     }
 
     public function attachToTracker(MessageTracker $tracker): void
@@ -45,7 +45,6 @@ final class HandleSequentialEvent implements MessageSubscriber
 
                 $context->withRaisedException($collectedExceptions);
             }
-
         }, Reporter::PRIORITY_INVOKE_HANDLER);
     }
 }

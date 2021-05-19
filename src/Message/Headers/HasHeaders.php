@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Headers;
@@ -22,7 +23,7 @@ trait HasHeaders
 
     public function hasNot(string $key): bool
     {
-        return !isset($this->headers[$key]);
+        return ! isset($this->headers[$key]);
     }
 
     public function headers(): array

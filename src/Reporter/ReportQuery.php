@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter;
@@ -20,7 +21,7 @@ class ReportQuery implements Reporter
 
         $promise = $context->promise();
 
-        if (!$promise && $context->hasException()) {
+        if ( ! $promise && $context->hasException()) {
             throw $context->exception();
         }
 

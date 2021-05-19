@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
@@ -13,7 +14,6 @@ final class MakeMessage implements MessageSubscriber
 {
     public function __construct(private MessageFactory $factory)
     {
-        //
     }
 
     public function attachToTracker(MessageTracker $tracker): void

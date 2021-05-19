@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
@@ -13,7 +14,6 @@ final class NameReporterService implements MessageSubscriber
 {
     public function __construct(private string $name)
     {
-        //
     }
 
     public function attachToTracker(MessageTracker $tracker): void

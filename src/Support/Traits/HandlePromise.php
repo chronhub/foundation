@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Traits;
@@ -9,9 +10,6 @@ use Throwable;
 trait HandlePromise
 {
     /**
-     * @param PromiseInterface $promise
-     * @param bool             $raiseException
-     * @return mixed
      * @throws Throwable
      */
     public function handlePromise(PromiseInterface $promise, bool $raiseException = true): mixed
@@ -20,10 +18,10 @@ trait HandlePromise
         $result = null;
 
         $promise->then(
-            static function ($data) use (&$result) {
+            static function ($data) use (&$result): void {
                 $result = $data;
             },
-            static function ($exc) use (&$exception) {
+            static function ($exc) use (&$exception): void {
                 $exception = $exc;
             }
         );

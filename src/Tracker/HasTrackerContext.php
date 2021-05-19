@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tracker;
@@ -12,7 +13,6 @@ trait HasTrackerContext
 
     public function __construct(protected ?string $currentEvent)
     {
-        //
     }
 
     public function withEvent(string $event): void

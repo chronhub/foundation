@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tracker;
@@ -48,7 +49,7 @@ trait HasTracker
     public function forget(Listener $eventSubscriber): void
     {
         $this->listeners = $this->listeners->reject(
-            fn(Listener $subscriber): bool => $eventSubscriber === $subscriber
+            fn (Listener $subscriber): bool => $eventSubscriber === $subscriber
         );
     }
 
@@ -57,8 +58,8 @@ trait HasTracker
         $currentEvent = $context->currentEvent();
 
         $this->listeners
-            ->filter(fn(Listener $subscriber) => $currentEvent === $subscriber->eventName())
-            ->sortByDesc(fn(Listener $subscriber): int => $subscriber->priority(), SORT_NUMERIC)
+            ->filter(fn (Listener $subscriber) => $currentEvent === $subscriber->eventName())
+            ->sortByDesc(fn (Listener $subscriber): int => $subscriber->priority(), SORT_NUMERIC)
             ->each(function (Listener $listener) use ($context, $callback): bool {
                 $result = $this->handleSubscriber($listener, $context, $callback);
 

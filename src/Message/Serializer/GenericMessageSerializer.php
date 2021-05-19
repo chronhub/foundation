@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Message\Serializer;
@@ -29,13 +30,13 @@ final class GenericMessageSerializer implements MessageSerializer
         $this->contentSerializer = $contentSerializer ?? new GenericContentSerializer();
     }
 
-    #[Payload(['headers' => "array", 'content' => "array"])]
+    #[Payload(['headers' => 'array', 'content' => 'array'])]
     public function serializeMessage(Message $message): array
     {
         $event = $message->event();
 
-        if (!$event instanceof Content) {
-            throw new RuntimeException("Message event must be an instance of Content to be serialized");
+        if ( ! $event instanceof Content) {
+            throw new RuntimeException('Message event must be an instance of Content to be serialized');
         }
 
         $headers = $message->headers();
@@ -45,7 +46,7 @@ final class GenericMessageSerializer implements MessageSerializer
         $headers[Header::EVENT_ID] = $headers[Header::EVENT_ID]->toString();
         $headers[Header::EVENT_TIME] = $headers[Header::EVENT_TIME]->toString();
 
-        if (!isset($headers[Header::EVENT_TYPE])) {
+        if ( ! isset($headers[Header::EVENT_TYPE])) {
             $headers[Header::EVENT_TYPE] = get_class($event);
         }
 
@@ -57,7 +58,7 @@ final class GenericMessageSerializer implements MessageSerializer
 
         return [
             'headers' => $headers,
-            'content' => $this->contentSerializer->serialize($event)
+            'content' => $this->contentSerializer->serialize($event),
         ];
     }
 
@@ -69,7 +70,7 @@ final class GenericMessageSerializer implements MessageSerializer
         $source = $headers[Header::EVENT_TYPE] ?? null;
 
         if (null === $source) {
-            throw new RuntimeException("Missing event type header from payload");
+            throw new RuntimeException('Missing event type header from payload');
         }
 
         $event = $this->contentSerializer->unserialize($source, $payload);
@@ -78,7 +79,7 @@ final class GenericMessageSerializer implements MessageSerializer
         $headers = $this->normalizeEventTime($headers);
 
         if (is_subclass_of($source, AggregateChanged::class)) {
-            if (!isset($headers[Header::INTERNAL_POSITION])) {
+            if ( ! isset($headers[Header::INTERNAL_POSITION])) {
                 $headers[Header::INTERNAL_POSITION] = $payload['no'];
             }
 
@@ -100,8 +101,8 @@ final class GenericMessageSerializer implements MessageSerializer
             $headers[Header::EVENT_ID] = Uuid::fromString($eventId);
         }
 
-        if (!$headers[Header::EVENT_ID] instanceof UuidInterface) {
-            throw new RuntimeException("Invalid event id header");
+        if ( ! $headers[Header::EVENT_ID] instanceof UuidInterface) {
+            throw new RuntimeException('Invalid event id header');
         }
 
         return $headers;
@@ -119,8 +120,8 @@ final class GenericMessageSerializer implements MessageSerializer
             $headers[Header::EVENT_TIME] = $this->clock->fromString($eventTime);
         }
 
-        if (!$headers[Header::EVENT_TIME] instanceof PointInTime) {
-            throw new RuntimeException("Invalid event time header");
+        if ( ! $headers[Header::EVENT_TIME] instanceof PointInTime) {
+            throw new RuntimeException('Invalid event time header');
         }
 
         return $headers;
@@ -130,8 +131,8 @@ final class GenericMessageSerializer implements MessageSerializer
     {
         $aggregateId = $headers[Header::AGGREGATE_ID];
 
-        if (!isset($headers[Header::AGGREGATE_ID_TYPE])) {
-            if (!$aggregateId instanceof AggregateId) {
+        if ( ! isset($headers[Header::AGGREGATE_ID_TYPE])) {
+            if ( ! $aggregateId instanceof AggregateId) {
                 throw new RuntimeException('Missing aggregate id type');
             }
 
@@ -150,6 +151,6 @@ final class GenericMessageSerializer implements MessageSerializer
             return $headers;
         }
 
-        throw new RuntimeException("Invalid aggregate id");
+        throw new RuntimeException('Invalid aggregate id');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
@@ -20,7 +21,7 @@ final class HandleCommand implements MessageSubscriber
                 $messageHandler($context->message()->event());
             }
 
-            if (null !== $messageHandler || $context->message()->header(Header::ASYNC_MARKER) === true) {
+            if (null !== $messageHandler || true === $context->message()->header(Header::ASYNC_MARKER)) {
                 $context->markMessageHandled(true);
             }
         }, Reporter::PRIORITY_INVOKE_HANDLER);

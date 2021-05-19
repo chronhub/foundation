@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter;
@@ -14,11 +15,11 @@ class ReportCommand implements Reporter
     protected array $queue = [];
     protected bool $isDispatching = false;
 
-    public function publish(object|array $message)
+    public function publish(object|array $message): void
     {
         $this->queue[] = $message;
 
-        if (!$this->isDispatching) {
+        if ( ! $this->isDispatching) {
             $this->isDispatching = true;
 
             try {

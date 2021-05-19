@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chronhub\Foundation\Support\Contracts\Tracker;
 
 use Chronhub\Foundation\Message\Message;
@@ -13,43 +15,22 @@ interface ContextualMessage extends TrackerContext
      */
     public function withTransientMessage(object|array $transientMessage): void;
 
-    /**
-     * @param Message $message
-     */
     public function withMessage(Message $message): void;
 
-    /**
-     * @param iterable $messageHandlers
-     */
     public function withMessageHandlers(iterable $messageHandlers): void;
 
-    /**
-     * @param PromiseInterface $promise
-     */
     public function withPromise(PromiseInterface $promise): void;
 
-    /**
-     * @param bool $isMessageHandled
-     */
     public function markMessageHandled(bool $isMessageHandled): void;
 
-    /**
-     * @return bool
-     */
     public function isMessageHandled(): bool;
 
-    /**
-     * @return Generator
-     */
     public function messageHandlers(): Generator;
 
-    /**
-     * @return Message
-     */
     public function message(): Message;
 
     /**
-     * @return null|object|array
+     * @return object|array|null
      */
     public function transientMessage(): null|object|array;
 
@@ -58,8 +39,5 @@ interface ContextualMessage extends TrackerContext
      */
     public function pullTransientMessage(): object|array;
 
-    /**
-     * @return PromiseInterface|null
-     */
     public function promise(): ?PromiseInterface;
 }

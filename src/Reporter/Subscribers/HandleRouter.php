@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
@@ -13,7 +14,9 @@ use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
 final class HandleRouter implements MessageSubscriber
 {
     public function __construct(private Router $router,
-                                private MessageProducer $messageProducer){}
+                                private MessageProducer $messageProducer)
+    {
+    }
 
     public function attachToTracker(MessageTracker $tracker): void
     {

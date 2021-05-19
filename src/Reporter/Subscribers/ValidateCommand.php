@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Subscribers;
@@ -20,7 +21,6 @@ final class ValidateCommand implements MessageSubscriber
 {
     public function __construct(private Factory $validator)
     {
-        //
     }
 
     public function attachToTracker(MessageTracker $tracker): void
@@ -28,7 +28,7 @@ final class ValidateCommand implements MessageSubscriber
         $tracker->listen(Reporter::DISPATCH_EVENT, function (ContextualMessage $context): void {
             $message = $context->message();
 
-            if (!$message->isMessaging()) {
+            if ( ! $message->isMessaging()) {
                 return;
             }
 
@@ -40,7 +40,7 @@ final class ValidateCommand implements MessageSubscriber
     {
         $event = $message->event();
 
-        if (!$event instanceof ValidationMessage) {
+        if ( ! $event instanceof ValidationMessage) {
             return;
         }
 
@@ -50,11 +50,11 @@ final class ValidateCommand implements MessageSubscriber
             throw ReportFailed::missingAsyncMarkerHeader($message->header(Header::EVENT_TYPE));
         }
 
-        if($event instanceof PreValidationMessage && $alreadyProducedAsync){
+        if ($event instanceof PreValidationMessage && $alreadyProducedAsync) {
             return;
         }
 
-        if($event instanceof PreValidationMessage && !$alreadyProducedAsync){
+        if ($event instanceof PreValidationMessage && ! $alreadyProducedAsync) {
             $this->validateMessage($message);
         }
 

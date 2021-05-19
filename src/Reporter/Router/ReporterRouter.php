@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Reporter\Router;
@@ -25,7 +26,7 @@ final class ReporterRouter implements Router
         return $this
             ->determineMessageHandler($message)
             ->transform(
-                fn($messageHandler): callable => $this->messageHandlerToCallable($messageHandler)
+                fn ($messageHandler): callable => $this->messageHandlerToCallable($messageHandler)
             );
     }
 
@@ -46,10 +47,6 @@ final class ReporterRouter implements Router
         throw ReportFailed::messageHandlerNotSupported();
     }
 
-    /**
-     * @param Message $message
-     * @return Collection
-     */
     private function determineMessageHandler(Message $message): Collection
     {
         $messageAlias = $this->messageAlias->instanceToAlias($message->event());
@@ -64,13 +61,11 @@ final class ReporterRouter implements Router
     }
 
     /**
-     * @param string $messageHandler
-     * @return object
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function locateStringMessageHandler(string $messageHandler): object
     {
-        if (!$this->container) {
+        if ( ! $this->container) {
             throw ReportFailed::missingContainer($messageHandler);
         }
 

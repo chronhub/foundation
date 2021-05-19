@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Support\Attribute;
@@ -10,6 +11,5 @@ class Payload
 {
     public function __construct(array $headers = [], array $content = [], ?int $no = null)
     {
-        //
     }
 }
