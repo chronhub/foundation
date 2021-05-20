@@ -10,7 +10,6 @@ use Chronhub\Foundation\Clock\UniversalSystemClock;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use Chronhub\Foundation\Message\Decorator\MarkEventTime;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 
 final class MarkEventTimeTest extends TestCaseWithProphecy
 {
@@ -28,7 +27,7 @@ final class MarkEventTimeTest extends TestCaseWithProphecy
         $messageMarked = $decorator->decorate($message);
 
         $this->assertNull($message->header(Header::EVENT_TIME));
-        $this->assertInstanceOf(PointInTime::class, $messageMarked->header(Header::EVENT_TIME));
+        $this->assertIsString($messageMarked->header(Header::EVENT_TIME));
     }
 
     /**
@@ -37,7 +36,7 @@ final class MarkEventTimeTest extends TestCaseWithProphecy
     public function it_does_not_override_event_time_header_if_already_exists(): void
     {
         $clock = new UniversalSystemClock();
-        $now = $clock->fromNow();
+        $now = $clock->fromNow()->toString();
 
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']), [
             Header::EVENT_TIME => $now,

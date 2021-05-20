@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Tests\Unit\Message\Decorator;
 
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
@@ -26,7 +25,7 @@ final class MarkEventIdTest extends TestCase
         $messageMarked = $decorator->decorate($message);
 
         $this->assertNull($message->header(Header::EVENT_ID));
-        $this->assertInstanceOf(UuidInterface::class, $messageMarked->header(Header::EVENT_ID));
+        $this->assertIsString($messageMarked->header(Header::EVENT_ID));
     }
 
     /**
@@ -34,16 +33,16 @@ final class MarkEventIdTest extends TestCase
      */
     public function it_does_not_override_event_id_header_if_already_exists(): void
     {
-        $id = Uuid::uuid4();
+        $eventId = Uuid::uuid4()->toString();
 
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']), [
-            Header::EVENT_ID => $id,
+            Header::EVENT_ID => $eventId,
         ]);
 
         $decorator = new MarkEventId();
 
         $messageMarked = $decorator->decorate($message);
 
-        $this->assertEquals([Header::EVENT_ID => $id], $messageMarked->headers());
+        $this->assertEquals([Header::EVENT_ID => $eventId], $messageMarked->headers());
     }
 }

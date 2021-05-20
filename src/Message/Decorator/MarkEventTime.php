@@ -18,7 +18,7 @@ final class MarkEventTime implements MessageDecorator
     public function decorate(Message $message): Message
     {
         if ($message->hasNot(Header::EVENT_TIME)) {
-            $message = $message->withHeader(Header::EVENT_TIME, $this->clock->fromNow());
+            $message = $message->withHeader(Header::EVENT_TIME, $this->clock->fromNow()->toString());
         }
 
         return $message;

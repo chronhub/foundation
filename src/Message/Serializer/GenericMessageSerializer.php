@@ -6,7 +6,6 @@ namespace Chronhub\Foundation\Message\Serializer;
 
 use Generator;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Attribute\Payload;
 use Chronhub\Foundation\Aggregate\AggregateChanged;
@@ -14,8 +13,6 @@ use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\Content;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use function get_class;
 use function is_string;
@@ -43,17 +40,12 @@ final class GenericMessageSerializer implements MessageSerializer
         $headers = $this->normalizeEventId($headers);
         $headers = $this->normalizeEventTime($headers);
 
-        $headers[Header::EVENT_ID] = $headers[Header::EVENT_ID]->toString();
-        $headers[Header::EVENT_TIME] = $headers[Header::EVENT_TIME]->toString();
-
         if ( ! isset($headers[Header::EVENT_TYPE])) {
             $headers[Header::EVENT_TYPE] = get_class($event);
         }
 
         if (is_subclass_of($event, AggregateChanged::class)) {
             $headers = $this->normalizeAggregateIdAndType($headers);
-
-            $headers[Header::AGGREGATE_ID] = $headers[Header::AGGREGATE_ID]->toString();
         }
 
         return [
@@ -94,15 +86,11 @@ final class GenericMessageSerializer implements MessageSerializer
         $eventId = $headers[Header::EVENT_ID] ?? null;
 
         if (null === $eventId) {
-            return $headers + [Header::EVENT_ID => Uuid::uuid4()];
+            return $headers + [Header::EVENT_ID => Uuid::uuid4()->toString()];
         }
 
-        if (is_string($eventId)) {
-            $headers[Header::EVENT_ID] = Uuid::fromString($eventId);
-        }
-
-        if ( ! $headers[Header::EVENT_ID] instanceof UuidInterface) {
-            throw new RuntimeException('Invalid event id header');
+        if ( ! is_string($eventId)) {
+            $headers[Header::EVENT_ID] = (string) $headers[Header::EVENT_ID];
         }
 
         return $headers;
@@ -113,15 +101,11 @@ final class GenericMessageSerializer implements MessageSerializer
         $eventTime = $headers[Header::EVENT_TIME] ?? null;
 
         if (null === $eventTime) {
-            return $headers + [Header::EVENT_TIME => $this->clock->fromNow()];
+            return $headers + [Header::EVENT_TIME => $this->clock->fromNow()->toString()];
         }
 
-        if (is_string($eventTime)) {
-            $headers[Header::EVENT_TIME] = $this->clock->fromString($eventTime);
-        }
-
-        if ( ! $headers[Header::EVENT_TIME] instanceof PointInTime) {
-            throw new RuntimeException('Invalid event time header');
+        if ( ! is_string($eventTime)) {
+            $headers[Header::EVENT_TIME] = (string) $headers[Header::EVENT_TIME];
         }
 
         return $headers;
@@ -129,28 +113,10 @@ final class GenericMessageSerializer implements MessageSerializer
 
     private function normalizeAggregateIdAndType(array $headers): array
     {
-        $aggregateId = $headers[Header::AGGREGATE_ID];
-
-        if ( ! isset($headers[Header::AGGREGATE_ID_TYPE])) {
-            if ( ! $aggregateId instanceof AggregateId) {
-                throw new RuntimeException('Missing aggregate id type');
-            }
-
-            $headers[Header::AGGREGATE_ID_TYPE] = get_class($headers[Header::AGGREGATE_ID]);
+        if ( ! isset($headers[Header::AGGREGATE_ID], $headers[Header::AGGREGATE_ID_TYPE])) {
+            throw new RuntimeException('Missing aggregate id and type');
         }
 
-        if ($aggregateId instanceof AggregateId) {
-            return $headers;
-        }
-
-        if (is_string($aggregateId)) {
-            $headers[Header::AGGREGATE_ID] = $headers[Header::AGGREGATE_ID_TYPE]::fromString(
-                $aggregateId
-            );
-
-            return $headers;
-        }
-
-        throw new RuntimeException('Invalid aggregate id');
+        return $headers;
     }
 }

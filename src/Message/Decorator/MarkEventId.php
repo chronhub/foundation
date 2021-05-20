@@ -14,7 +14,7 @@ final class MarkEventId implements MessageDecorator
     public function decorate(Message $message): Message
     {
         if ($message->hasNot(Header::EVENT_ID)) {
-            $message = $message->withHeader(Header::EVENT_ID, Uuid::uuid4());
+            $message = $message->withHeader(Header::EVENT_ID, Uuid::uuid4()->toString());
         }
 
         return $message;

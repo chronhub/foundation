@@ -7,7 +7,6 @@ namespace Chronhub\Foundation\Tests\Functional;
 use Generator;
 use Throwable;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Reporter\ReportCommand;
@@ -20,7 +19,6 @@ use Chronhub\Foundation\Tests\Double\SomeCommandHandler;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
 use Chronhub\Foundation\Reporter\Subscribers\HandleCommand;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Tests\Spy\ResetExceptionSpySubscriber;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
@@ -50,9 +48,9 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $headers = $pastCommand->headers();
 
         $this->assertEquals(ReportCommand::class, $headers[Header::REPORTER_NAME]);
-        $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
+        $this->assertIsString($headers[Header::EVENT_ID]);
         $this->assertEquals(SomeCommand::class, $headers[Header::EVENT_TYPE]);
-        $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
+        $this->assertIsString($headers[Header::EVENT_TIME]);
     }
 
     /**
@@ -80,9 +78,9 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $headers = $pastCommand->headers();
 
         $this->assertEquals(ReportCommand::class, $headers[Header::REPORTER_NAME]);
-        $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
+        $this->assertIsString($headers[Header::EVENT_ID]);
         $this->assertEquals(SomeCommand::class, $headers[Header::EVENT_TYPE]);
-        $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
+        $this->assertIsString($headers[Header::EVENT_TIME]);
     }
 
     /**
@@ -169,9 +167,9 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
 
         $headers = [
             Header::REPORTER_NAME => 'report.command.default',
-            Header::EVENT_ID      => Uuid::uuid4(),
+            Header::EVENT_ID      => Uuid::uuid4()->toString(),
             Header::EVENT_TYPE    => SomeCommand::class,
-            Header::EVENT_TIME    => $this->app[Clock::class]->fromNow(),
+            Header::EVENT_TIME    => $this->app[Clock::class]->fromNow()->toString(),
         ];
 
         if (is_array($message)) {

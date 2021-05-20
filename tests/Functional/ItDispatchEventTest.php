@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional;
 
-use Ramsey\Uuid\UuidInterface;
 use Chronhub\Foundation\Reporter\ReportEvent;
 use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Tests\Double\SomeEvent;
 use Chronhub\Foundation\Tests\Double\SomeEventHandler;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 
 final class ItDispatchEventTest extends OrchestraWithDefaultConfig
 {
@@ -37,8 +35,8 @@ final class ItDispatchEventTest extends OrchestraWithDefaultConfig
         $headers = $pastEvent->headers();
 
         $this->assertEquals(ReportEvent::class, $headers[Header::REPORTER_NAME]);
-        $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
-        $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
+        $this->assertIsString($headers[Header::EVENT_ID]);
+        $this->assertIsString($headers[Header::EVENT_TIME]);
     }
 
     /**

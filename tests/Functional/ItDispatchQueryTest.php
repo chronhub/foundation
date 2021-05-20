@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Chronhub\Foundation\Tests\Functional;
 
 use React\Promise\Deferred;
-use Ramsey\Uuid\UuidInterface;
 use Chronhub\Foundation\Reporter\ReportQuery;
 use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Tests\Double\SomeQuery;
@@ -13,7 +12,6 @@ use Chronhub\Foundation\Support\Traits\HandlePromise;
 use Chronhub\Foundation\Tests\Double\SomeQueryHandler;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 
 final class ItDispatchQueryTest extends OrchestraWithDefaultConfig
 {
@@ -43,8 +41,8 @@ final class ItDispatchQueryTest extends OrchestraWithDefaultConfig
         $headers = $pastQuery->headers();
 
         $this->assertEquals(ReportQuery::class, $headers[Header::REPORTER_NAME]);
-        $this->assertInstanceOf(UuidInterface::class, $headers[Header::EVENT_ID]);
-        $this->assertInstanceOf(PointInTime::class, $headers[Header::EVENT_TIME]);
+        $this->assertIsString($headers[Header::EVENT_ID]);
+        $this->assertIsString($headers[Header::EVENT_TIME]);
 
         $result = $this->handlePromise($promise);
 
