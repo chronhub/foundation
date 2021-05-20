@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Router;
 
-use Chronhub\Foundation\Exception\ReportFailed;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Router\SingleHandlerRouter;
-use Chronhub\Foundation\Support\Contracts\Reporter\Router;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use stdclass;
 use Generator;
 use Prophecy\Prophecy\ObjectProphecy;
-use stdclass;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Exception\ReportFailed;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Support\Contracts\Reporter\Router;
+use Chronhub\Foundation\Reporter\Router\SingleHandlerRouter;
 
 final class SingleHandlerRouterTest extends TestCaseWithProphecy
 {
@@ -30,7 +31,7 @@ final class SingleHandlerRouterTest extends TestCaseWithProphecy
     {
         $message = new Message(new stdclass());
 
-        $expectedMessageHandlers = [function(){}];
+        $expectedMessageHandlers = [function (): void {}];
 
         $this->router->route($message)->willReturn($expectedMessageHandlers)->shouldBeCalled();
 
@@ -63,8 +64,8 @@ final class SingleHandlerRouterTest extends TestCaseWithProphecy
         yield [[]];
 
         yield [[
-            function(){},
-            function(){},
+            function (): void {},
+            function (): void {},
         ]];
     }
 }

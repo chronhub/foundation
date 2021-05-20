@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Router;
 
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Router\DomainEventHandlerRouter;
-use Chronhub\Foundation\Support\Contracts\Reporter\Router;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Prophecy\Prophecy\ObjectProphecy;
 use stdclass;
+use Prophecy\Prophecy\ObjectProphecy;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Support\Contracts\Reporter\Router;
+use Chronhub\Foundation\Reporter\Router\DomainEventHandlerRouter;
 
 /** @coversDefaultClass \Chronhub\Foundation\Reporter\Router\DomainEventHandlerRouter */
 final class DomainEventHandlerRouterTest extends TestCaseWithProphecy
@@ -30,8 +31,8 @@ final class DomainEventHandlerRouterTest extends TestCaseWithProphecy
         $message = new Message(new stdclass());
 
         $expectedMessageHandlers = [
-            function(){},
-            function(){},
+            function (): void {},
+            function (): void {},
         ];
 
         $this->router->route($message)->willReturn($expectedMessageHandlers)->shouldBeCalled();

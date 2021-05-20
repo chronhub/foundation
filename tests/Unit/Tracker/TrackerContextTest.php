@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Tracker;
 
-use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
+use RuntimeException;
 use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Tracker\HasTrackerContext;
-use RuntimeException;
+use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
 
 /** @coversDefaultClass \Chronhub\Foundation\Tracker\HasTrackerContext */
 final class TrackerContextTest extends TestCase

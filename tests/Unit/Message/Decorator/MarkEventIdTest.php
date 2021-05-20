@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Decorator;
 
-use Chronhub\Foundation\Message\Decorator\MarkEventId;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Message\Decorator\MarkEventId;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
 
 final class MarkEventIdTest extends TestCase
 {
@@ -36,7 +37,7 @@ final class MarkEventIdTest extends TestCase
         $id = Uuid::uuid4();
 
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']), [
-            Header::EVENT_ID => $id
+            Header::EVENT_ID => $id,
         ]);
 
         $decorator = new MarkEventId();

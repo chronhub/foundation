@@ -1,20 +1,21 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Producer;
 
-use Chronhub\Foundation\Exception\RuntimeException;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Message\Producer\PerMessageProducer;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageQueue;
-use Chronhub\Foundation\Tests\Double\SomeAsyncCommand;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use stdClass;
 use Generator;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use stdClass;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Exception\RuntimeException;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Tests\Double\SomeAsyncCommand;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Message\Producer\PerMessageProducer;
+use Chronhub\Foundation\Support\Contracts\Message\MessageQueue;
 
 final class PerMessageProducerTest extends TestCaseWithProphecy
 {
@@ -30,8 +31,6 @@ final class PerMessageProducerTest extends TestCaseWithProphecy
     /**
      * @test
      * @dataProvider provideSync
-     *
-     * @param object $event
      */
     public function it_produce_message_synchronously(object $event): void
     {
@@ -54,7 +53,7 @@ final class PerMessageProducerTest extends TestCaseWithProphecy
         $event = SomeAsyncCommand::fromContent(['name' => 'steph']);
 
         $message = new Message($event, [
-            Header::ASYNC_MARKER => false
+            Header::ASYNC_MARKER => false,
         ]);
 
         $this->producer->toQueue(Argument::type(Message::class))->shouldBeCalled();

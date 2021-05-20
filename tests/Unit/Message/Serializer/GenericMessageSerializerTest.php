@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chronhub\Foundation\Tests\Unit\Message\Serializer;
 
-use Chronhub\Foundation\Aggregate\GenericAggregateId;
-use Chronhub\Foundation\Clock\UniversalPointInTime;
-use Chronhub\Foundation\Exception\RuntimeException;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Message\Serializer\GenericMessageSerializer;
-use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
-use Chronhub\Foundation\Support\Contracts\Clock\Clock;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Tests\Double\SomeAggregateChanged;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Prophecy\Prophecy\ObjectProphecy;
+use stdClass;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use stdClass;
+use Prophecy\Prophecy\ObjectProphecy;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Clock\UniversalPointInTime;
+use Chronhub\Foundation\Exception\RuntimeException;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Aggregate\GenericAggregateId;
+use Chronhub\Foundation\Support\Contracts\Clock\Clock;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Tests\Double\SomeAggregateChanged;
+use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
+use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
+use Chronhub\Foundation\Message\Serializer\GenericMessageSerializer;
 use function get_class;
 
 class GenericMessageSerializerTest extends TestCaseWithProphecy
@@ -138,7 +140,7 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
         $aggregateId = GenericAggregateId::create();
 
         $event = SomeAggregateChanged::occur($aggregateId->toString(), ['name' => 'steph']);
-        $headers = [Header::AGGREGATE_ID => $aggregateId->toString(),];
+        $headers = [Header::AGGREGATE_ID => $aggregateId->toString()];
 
         $message = new Message($event, $headers);
 
@@ -174,7 +176,7 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
 
         $event = SomeCommand::fromContent(['name' => 'steph']);
         $headers = [
-            Header::EVENT_TIME => new stdClass()
+            Header::EVENT_TIME => new stdClass(),
         ];
 
         $message = new Message($event, $headers);
@@ -210,7 +212,6 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
             'headers' => $headers,
             'content' => $content,
         ])->current();
-
 
         $this->assertEquals($eventClass, $event::class);
         $this->assertEquals($content, $event->toContent());
@@ -253,7 +254,6 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
             'content' => $content,
         ])->current();
 
-
         $this->assertEquals($eventClass, $event::class);
         $this->assertEquals($content, $event->toContent());
         $this->assertInstanceOf(UuidInterface::class, $event->header(Header::EVENT_ID));
@@ -284,7 +284,7 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
             Header::AGGREGATE_ID_TYPE => get_class($aggregateId),
             Header::EVENT_TYPE        => $eventClass,
             Header::EVENT_ID          => $id->toString(),
-            Header::EVENT_TIME        => $time->toString()
+            Header::EVENT_TIME        => $time->toString(),
         ];
 
         $content = ['name' => 'steph'];
@@ -294,7 +294,7 @@ class GenericMessageSerializerTest extends TestCaseWithProphecy
         $event = $serializer->unserializeContent([
             'headers' => $headers,
             'content' => $content,
-            'no'      => 1
+            'no'      => 1,
         ])->current();
 
         $this->assertEquals(1, $event->header(Header::INTERNAL_POSITION));

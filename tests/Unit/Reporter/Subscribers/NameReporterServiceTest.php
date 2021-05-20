@@ -1,18 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
+use stdClass;
+use Generator;
+use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\ReportCommand;
 use Chronhub\Foundation\Reporter\ReportEvent;
-use Chronhub\Foundation\Reporter\Subscribers\NameReporterService;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Chronhub\Foundation\Reporter\ReportCommand;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Tests\TestCase;
-use Chronhub\Foundation\Tracker\TrackMessage;
-use Generator;
-use stdClass;
+use Chronhub\Foundation\Reporter\Subscribers\NameReporterService;
 
 final class NameReporterServiceTest extends TestCase
 {
@@ -61,8 +62,8 @@ final class NameReporterServiceTest extends TestCase
     {
         yield ['reporter.service_id'];
 
-        yield [ReportCommand::class,];
+        yield [ReportCommand::class];
 
-        yield [ReportEvent::class,];
+        yield [ReportEvent::class];
     }
 }

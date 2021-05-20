@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Tracker;
 
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCase;
-use Chronhub\Foundation\Tracker\ContextualMessage;
 use Error;
+use stdclass;
 use Generator;
 use React\Promise\PromiseInterface;
-use stdclass;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Tracker\ContextualMessage;
 
 /** @coversDefaultClass \Chronhub\Foundation\Tracker\ContextualMessage */
 final class ContextualMessageTest extends TestCase
@@ -127,8 +128,8 @@ final class ContextualMessageTest extends TestCase
         $this->assertEmpty(iterator_to_array($context->messageHandlers()));
 
         $messageHandlers = [
-            function () {
-            }
+            function (): void {
+            },
         ];
 
         $context->withMessageHandlers($messageHandlers);

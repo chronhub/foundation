@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Alias;
 
-use Chronhub\Foundation\Exception\InvalidArgumentException;
-use Chronhub\Foundation\Message\Alias\AliasFromInflector;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Message\Alias\AliasFromInflector;
+use Chronhub\Foundation\Exception\InvalidArgumentException;
 
 /** @coversDefaultClass \Chronhub\Foundation\Message\Alias\AliasFromInflector */
 class AliasFromInflectorTest extends TestCase
@@ -29,7 +30,7 @@ class AliasFromInflectorTest extends TestCase
     public function it_raise_exception_when_event_class_string_does_not_exists(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Event class invalid_event does not exists");
+        $this->expectExceptionMessage('Event class invalid_event does not exists');
 
         $messageAlias = new AliasFromInflector();
 

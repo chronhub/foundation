@@ -1,17 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional\Factory;
 
+use stdClass;
+use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Exception\ReportFailed;
 use Chronhub\Foundation\Reporter\ReportCommand;
+use Illuminate\Contracts\Foundation\Application;
+use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
-use Chronhub\Foundation\Support\Facade\Report;
-use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
-use Illuminate\Contracts\Foundation\Application;
-use stdClass;
 
 final class ReporterManagerTest extends TestCaseWithOrchestra
 {
@@ -43,8 +44,8 @@ final class ReporterManagerTest extends TestCaseWithOrchestra
                     'subscribers' => [],
                     'producer'    => 'default',
                 ],
-                'map'            => []
-            ]
+                'map'            => [],
+            ],
         ];
 
         $this->app['config']->set('reporter.reporting.command', $config);
@@ -52,12 +53,12 @@ final class ReporterManagerTest extends TestCaseWithOrchestra
         $this->app[ReporterManager::class]->extends(
             'reporter_command',
             'command',
-            fn(Application $app, array $config) => new ReportCommand('reporter_command')
+            fn (Application $app, array $config) => new ReportCommand('reporter_command')
         );
 
         $this->app->bind(
             ReportCommand::class,
-            fn(Application $app): Reporter => $app[ReporterManager::class]->command('reporter_command')
+            fn (Application $app): Reporter => $app[ReporterManager::class]->command('reporter_command')
         );
 
         $reporter = Report::command('reporter_command');
@@ -96,8 +97,8 @@ final class ReporterManagerTest extends TestCaseWithOrchestra
             'reporter_command' => [
                 'service_id'     => 'reporter_command',
                 'concrete'       => stdClass::class,
-                'map'            => []
-            ]
+                'map'            => [],
+            ],
         ];
 
         $this->app['config']->set('reporter.reporting.command', $config);

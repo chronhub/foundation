@@ -1,22 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional\Factory;
 
-use Chronhub\Foundation\Reporter\Services\ConfigurationServiceProvider;
-use Chronhub\Foundation\Reporter\Services\DefaultReporterManager;
-use Chronhub\Foundation\Reporter\Services\ReporterServiceProvider;
+use Illuminate\Contracts\Config\Repository;
+use Chronhub\Foundation\Support\Facade\Report;
+use Chronhub\Foundation\Support\Facade\Publish;
+use Chronhub\Foundation\Support\Facade\AliasMessage;
+use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
 use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
+use Chronhub\Foundation\Reporter\Services\DefaultReporterManager;
 use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
+use Chronhub\Foundation\Reporter\Services\ReporterServiceProvider;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
-use Chronhub\Foundation\Support\Facade\AliasMessage;
-use Chronhub\Foundation\Support\Facade\Publish;
-use Chronhub\Foundation\Support\Facade\Report;
-use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Support\DeferrableProvider;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
+use Chronhub\Foundation\Reporter\Services\ConfigurationServiceProvider;
 
 final class ServiceProviderTest extends TestCaseWithOrchestra
 {

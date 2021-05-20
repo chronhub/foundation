@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional;
 
+use Ramsey\Uuid\UuidInterface;
 use Chronhub\Foundation\Reporter\ReportEvent;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Tests\Double\SomeEvent;
 use Chronhub\Foundation\Tests\Double\SomeEventHandler;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
-use Ramsey\Uuid\UuidInterface;
+use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 
 final class ItDispatchEventTest extends OrchestraWithDefaultConfig
 {
@@ -24,7 +25,7 @@ final class ItDispatchEventTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.event.default.map', [
             'some-event' => function (SomeEvent $event) use (&$pastEvent): void {
                 $pastEvent = $event;
-            }
+            },
         ]);
 
         $event = SomeEvent::fromContent(['name' => 'steph']);
@@ -48,7 +49,7 @@ final class ItDispatchEventTest extends OrchestraWithDefaultConfig
         $eventHandler = new SomeEventHandler();
 
         $this->app['config']->set('reporter.reporting.event.default.map', [
-            'some-event' => $eventHandler
+            'some-event' => $eventHandler,
         ]);
 
         $event = SomeEvent::fromContent(['name' => 'steph']);

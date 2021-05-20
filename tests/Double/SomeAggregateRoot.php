@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Double;
 
-use Chronhub\Foundation\Aggregate\HasAggregateRoot;
 use Chronhub\Foundation\Message\DomainEvent;
+use Chronhub\Foundation\Aggregate\HasAggregateRoot;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateRoot;
 use function count;

@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional\Factory;
 
-use Chronhub\Foundation\Message\Alias\AliasFromInflector;
-use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
-use Chronhub\Foundation\Support\Facade\AliasMessage;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Support\Facade\AliasMessage;
+use Chronhub\Foundation\Message\Alias\AliasFromInflector;
 use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
+use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
 
 final class AliasMessageFacadeTest extends OrchestraWithDefaultConfig
 {

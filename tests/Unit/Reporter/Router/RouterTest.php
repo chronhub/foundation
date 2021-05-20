@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Router;
 
-use Chronhub\Foundation\Exception\ReportFailed;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Router\ReporterRouter;
-use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use Illuminate\Container\Container;
 use Prophecy\Prophecy\ObjectProphecy;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Exception\ReportFailed;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Reporter\Router\ReporterRouter;
+use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
 
 final class RouterTest extends TestCaseWithProphecy
 {
@@ -33,12 +34,12 @@ final class RouterTest extends TestCaseWithProphecy
         $this->alias->instanceToAlias($message->event())->willReturn('some-command')->shouldBeCalled();
 
         $map = [
-            'some-command' => function () {}
+            'some-command' => function (): void {},
         ];
 
         $router = new ReporterRouter($map, $this->alias->reveal(), null, null);
 
-        $this->assertEquals(function () {}, $router->route($message)[0]);
+        $this->assertEquals(function (): void {}, $router->route($message)[0]);
     }
 
     /**
@@ -48,7 +49,7 @@ final class RouterTest extends TestCaseWithProphecy
     {
         $container = new Container();
         $container->bind('message_handler', function () {
-            return function () {};
+            return function (): void {};
         });
 
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']));
@@ -59,7 +60,7 @@ final class RouterTest extends TestCaseWithProphecy
 
         $router = new ReporterRouter($map, $this->alias->reveal(), $container, null);
 
-        $this->assertEquals(function () {
+        $this->assertEquals(function (): void {
         }, $router->route($message)[0]);
     }
 

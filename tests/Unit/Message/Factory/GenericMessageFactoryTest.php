@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Factory;
 
-use Chronhub\Foundation\Message\Factory\GenericMessageFactory;
+use stdClass;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use stdClass;
+use Chronhub\Foundation\Message\Factory\GenericMessageFactory;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 
 /** @coversDefaultClass \Chronhub\Foundation\Message\Factory\GenericMessageFactory */
 final class GenericMessageFactoryTest extends TestCaseWithProphecy

@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Producer;
 
+use stdClass;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Message\Producer\IlluminateQueue;
+use Illuminate\Contracts\Bus\QueueingDispatcher;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use Chronhub\Foundation\Message\Producer\MessageJob;
+use Chronhub\Foundation\Message\Producer\IlluminateQueue;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Illuminate\Contracts\Bus\QueueingDispatcher;
-use stdClass;
 
 final class IlluminateProducerTest extends TestCaseWithProphecy
 {
@@ -28,14 +29,14 @@ final class IlluminateProducerTest extends TestCaseWithProphecy
 
         $payload = [
             'headers' => [],
-            'content' => ['foo' => 'bar']
+            'content' => ['foo' => 'bar'],
         ];
 
         $serializer->serializeMessage($message)->willReturn($payload)->shouldBeCalled();
 
         $job = new MessageJob([
             'headers' => [],
-            'content' => ['foo' => 'bar']
+            'content' => ['foo' => 'bar'],
         ], 'some_bus', 'default', 'default');
 
         $queue->dispatchToQueue($job)->shouldBeCalled();

@@ -1,18 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Subscribers\MakeMessage;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Chronhub\Foundation\Tracker\TrackMessage;
 use Generator;
 use Prophecy\Prophecy\ObjectProphecy;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Reporter\Subscribers\MakeMessage;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Message\MessageFactory;
 
 final class MakeMessageTest extends TestCaseWithProphecy
 {
@@ -52,7 +53,7 @@ final class MakeMessageTest extends TestCaseWithProphecy
     {
         yield [
             'headers' => [Header::EVENT_TYPE => SomeCommand::class],
-            'content' => ['name' => 'steph']
+            'content' => ['name' => 'steph'],
         ];
 
         $event = SomeCommand::fromContent(['name' => 'steph']);

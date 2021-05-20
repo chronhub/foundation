@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Aggregate;
 
+use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Aggregate\GenericAggregateId;
+use Chronhub\Foundation\Tests\Double\SomeAggregateId;
 use Chronhub\Foundation\Aggregate\HasAggregateIdentity;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
-use Chronhub\Foundation\Tests\Double\SomeAggregateId;
-use Chronhub\Foundation\Tests\TestCase;
 
 /** @coversDefaultClass \Chronhub\Foundation\Aggregate\GenericAggregateId */
 /** @coversDefaultClass HasAggregateIdentity */

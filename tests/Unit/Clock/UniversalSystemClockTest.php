@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Clock;
 
+use DateTimeZone;
+use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 use Chronhub\Foundation\Clock\UniversalPointInTime;
 use Chronhub\Foundation\Clock\UniversalSystemClock;
-use DateTimeImmutable;
-use DateTimeZone;
-use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \Chronhub\Foundation\Clock\UniversalSystemClock */
 class UniversalSystemClockTest extends TestCase

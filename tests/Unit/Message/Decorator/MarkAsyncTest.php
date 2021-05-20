@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Decorator;
 
-use Chronhub\Foundation\Message\Decorator\MarkAsync;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCase;
 use stdClass;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Message\Decorator\MarkAsync;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
 
 final class MarkAsyncTest extends TestCase
 {
@@ -33,7 +34,7 @@ final class MarkAsyncTest extends TestCase
     public function it_does_not_override_event_async_marker_header_if_already_exists(): void
     {
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']), [
-            Header::ASYNC_MARKER => true
+            Header::ASYNC_MARKER => true,
         ]);
 
         $decorator = new MarkAsync();

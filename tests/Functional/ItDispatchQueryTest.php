@@ -1,18 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional;
 
-use Chronhub\Foundation\Reporter\ReportQuery;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Facade\Report;
-use Chronhub\Foundation\Support\Traits\HandlePromise;
-use Chronhub\Foundation\Tests\Double\SomeQuery;
-use Chronhub\Foundation\Tests\Double\SomeQueryHandler;
-use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
-use Ramsey\Uuid\UuidInterface;
 use React\Promise\Deferred;
+use Ramsey\Uuid\UuidInterface;
+use Chronhub\Foundation\Reporter\ReportQuery;
+use Chronhub\Foundation\Support\Facade\Report;
+use Chronhub\Foundation\Tests\Double\SomeQuery;
+use Chronhub\Foundation\Support\Traits\HandlePromise;
+use Chronhub\Foundation\Tests\Double\SomeQueryHandler;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
+use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 
 final class ItDispatchQueryTest extends OrchestraWithDefaultConfig
 {
@@ -30,7 +31,7 @@ final class ItDispatchQueryTest extends OrchestraWithDefaultConfig
                 $pastQuery = $query;
 
                 $promise->resolve($query->toContent()['name']);
-            }
+            },
         ]);
 
         $query = SomeQuery::fromContent(['name' => 'steph']);
@@ -58,7 +59,7 @@ final class ItDispatchQueryTest extends OrchestraWithDefaultConfig
         $handler = new SomeQueryHandler();
 
         $this->app['config']->set('reporter.reporting.query.default.map', [
-            'some-query' => $handler
+            'some-query' => $handler,
         ]);
 
         $query = SomeQuery::fromContent(['name' => 'steph']);

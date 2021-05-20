@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Tracker;
 
+use Illuminate\Support\Collection;
+use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tracker\HasTracker;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\Tracker;
 use Chronhub\Foundation\Support\Contracts\Tracker\TrackerContext;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCase;
-use Chronhub\Foundation\Tracker\ContextualMessage;
-use Chronhub\Foundation\Tracker\HasTracker;
-use Illuminate\Support\Collection;
 
 final class TrackerTest extends TestCase
 {
@@ -45,7 +46,7 @@ final class TrackerTest extends TestCase
 
         $tracker = $this->newTrackerInstance($context);
 
-        $callback = function () {};
+        $callback = function (): void {};
 
         $anotherSubscriber = $tracker->listen('dispatch', $callback, 2);
         $tracker->listen('dispatch', $callback, 1);

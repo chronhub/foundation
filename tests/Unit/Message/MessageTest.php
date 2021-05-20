@@ -1,21 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message;
 
-use Chronhub\Foundation\Exception\InvalidArgumentException;
-use Chronhub\Foundation\Exception\RuntimeException;
-use Chronhub\Foundation\Message\DomainCommand;
+use stdclass;
+use Generator;
+use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Message\DomainEvent;
 use Chronhub\Foundation\Message\DomainQuery;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\Messaging;
+use Chronhub\Foundation\Message\DomainCommand;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\Double\SomeNakedObject;
+use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Generator;
-use stdclass;
+use Chronhub\Foundation\Tests\Double\SomeNakedObject;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Exception\InvalidArgumentException;
+use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 
 /** @coversDefaultClass \Chronhub\Foundation\Message\Message */
 final class MessageTest extends TestCaseWithProphecy
@@ -53,7 +54,7 @@ final class MessageTest extends TestCaseWithProphecy
      */
     public function it_can_be_constructed_with_headers(): void
     {
-        $message = new Message(new stdclass, [Header::EVENT_ID => '123']);
+        $message = new Message(new stdclass(), [Header::EVENT_ID => '123']);
 
         $this->assertTrue($message->has(Header::EVENT_ID));
         $this->assertEquals('123', $message->header(Header::EVENT_ID));
@@ -75,7 +76,7 @@ final class MessageTest extends TestCaseWithProphecy
      */
     public function it_can_override_headers(): void
     {
-        $message = new Message(new stdclass, [Header::EVENT_ID => '123']);
+        $message = new Message(new stdclass(), [Header::EVENT_ID => '123']);
 
         $messageWithHeaders = $message->withHeaders([Header::EVENT_ID => '456']);
 
@@ -165,7 +166,7 @@ final class MessageTest extends TestCaseWithProphecy
 
     public function provideEventObjects(): Generator
     {
-        yield [new stdclass];
+        yield [new stdclass()];
         yield [new SomeNakedObject()];
     }
 

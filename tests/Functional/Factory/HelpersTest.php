@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional\Factory;
 
-use Chronhub\Foundation\Support\Contracts\Clock\Clock;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
-use React\Promise\Deferred;
 use RuntimeException;
+use React\Promise\Deferred;
+use Chronhub\Foundation\Support\Contracts\Clock\Clock;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
+use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 
 final class HelpersTest extends OrchestraWithDefaultConfig
 {

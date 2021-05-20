@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Clock;
 
+use DateTimeZone;
+use DateTimeImmutable;
 use Chronhub\Foundation\Clock\UniversalPointInTime;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use Chronhub\Foundation\Exception\InvalidArgumentException;
 use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use DateTimeImmutable;
-use DateTimeZone;
 
 /** @coversDefaultClass \Chronhub\Foundation\Clock\UniversalPointInTime */
 class UniversalPointInTimeTest extends TestCaseWithProphecy
@@ -93,7 +94,7 @@ class UniversalPointInTimeTest extends TestCaseWithProphecy
         $pointInTime = UniversalPointInTime::fromString($timeString);
 
         $this->assertEquals($timeString, $pointInTime->toString());
-        $this->assertEquals($timeString, (string)$pointInTime);
+        $this->assertEquals($timeString, (string) $pointInTime);
     }
 
     /**

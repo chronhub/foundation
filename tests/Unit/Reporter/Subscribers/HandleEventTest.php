@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
+use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Chronhub\Foundation\Tests\Double\SomeEvent;
 use Chronhub\Foundation\Reporter\Subscribers\HandleEvent;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Tests\Double\SomeEvent;
-use Chronhub\Foundation\Tests\TestCase;
-use Chronhub\Foundation\Tracker\TrackMessage;
 
 final class HandleEventTest extends TestCase
 {

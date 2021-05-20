@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chronhub\Foundation\Tests\Unit\Message\Serializer;
 
+use stdClass;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Exception\RuntimeException;
-use Chronhub\Foundation\Message\Serializer\GenericContentSerializer;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Tests\Double\SomeAggregateChanged;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCase;
-use stdClass;
+use Chronhub\Foundation\Message\Serializer\GenericContentSerializer;
 
 class GenericContentSerializerTest extends TestCase
 {
@@ -31,7 +33,7 @@ class GenericContentSerializerTest extends TestCase
     {
         $payload = [
             'headers' => ['some' => 'header'],
-            'content' => ['name' => 'steph']
+            'content' => ['name' => 'steph'],
         ];
 
         $serializer = new GenericContentSerializer();
@@ -49,7 +51,7 @@ class GenericContentSerializerTest extends TestCase
     {
         $payload = [
             'headers' => [Header::AGGREGATE_ID => '123-456'],
-            'content' => ['name' => 'steph']
+            'content' => ['name' => 'steph'],
         ];
 
         $serializer = new GenericContentSerializer();
@@ -70,6 +72,6 @@ class GenericContentSerializerTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Invalid source');
 
-        (new GenericContentSerializer())->unserialize(stdClass::class,['some' => 'content']);
+        (new GenericContentSerializer())->unserialize(stdClass::class, ['some' => 'content']);
     }
 }

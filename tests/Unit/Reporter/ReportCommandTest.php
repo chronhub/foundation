@@ -1,21 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter;
 
-use Chronhub\Foundation\Exception\MessageDispatchFailed;
-use Chronhub\Foundation\Reporter\ReportCommand;
-use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\Double\SomeMessage;
-use Chronhub\Foundation\Tests\TestCase;
-use Chronhub\Foundation\Tracker\TrackMessage;
-use RuntimeException;
 use stdClass;
 use Throwable;
+use RuntimeException;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Chronhub\Foundation\Reporter\ReportCommand;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Tests\Double\SomeMessage;
+use Chronhub\Foundation\Exception\MessageDispatchFailed;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
+use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
+use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
 use function get_class;
 
 final class ReportCommandTest extends TestCase
@@ -83,9 +84,9 @@ final class ReportCommandTest extends TestCase
 
         $reporter = $this->reporterInstance(ReportCommand::class, null);
         $reporter->subscribe($subscriber);
-        $reporter->publish(new stdClass);
+        $reporter->publish(new stdClass());
 
-        $this->assertEquals($transientMessage, new stdClass);
+        $this->assertEquals($transientMessage, new stdClass());
     }
 
     /**
@@ -107,14 +108,14 @@ final class ReportCommandTest extends TestCase
                 $this->test->assertEmpty($this->queue);
 
                 $this->queue[] = $message;
-                $this->called++;
+                ++$this->called;
 
-                if (!$this->isDispatching) {
+                if ( ! $this->isDispatching) {
                     $this->isDispatching = true;
 
                     try {
                         while ($command = array_shift($this->queue)) {
-                            if($this->called === 1){
+                            if (1 === $this->called) {
                                 $this->test->assertInstanceOf(SomeCommand::class, $command);
                             }
 
@@ -126,9 +127,9 @@ final class ReportCommandTest extends TestCase
 
                             $this->test->assertEquals(2, $this->called);
 
-                            if($this->queue[0] ?? null){
+                            if ($this->queue[0] ?? null) {
                                 $this->test->assertInstanceOf(SomeMessage::class, $this->queue[0]);
-                            }else{
+                            } else {
                                 $this->test->assertEmpty($this->queue);
                             }
                         }
@@ -144,9 +145,11 @@ final class ReportCommandTest extends TestCase
         };
 
         $someCommandHandler = new class($reporter) {
-            public function __construct(private ReportCommand $reporter) {}
+            public function __construct(private ReportCommand $reporter)
+            {
+            }
 
-            public function __invoke(SomeCommand $command)
+            public function __invoke(SomeCommand $command): void
             {
                 $this->reporter->publish(new SomeMessage('ok'));
             }
@@ -154,7 +157,7 @@ final class ReportCommandTest extends TestCase
 
         $subscriber = new CallableMessageSubscriber(
             Reporter::DISPATCH_EVENT,
-            function (ContextualMessage $context) use ($reporter, $someCommandHandler): void {
+            function (ContextualMessage $context) use ($someCommandHandler): void {
                 $message = $context->pullTransientMessage();
 
                 if ($message instanceof SomeCommand) {

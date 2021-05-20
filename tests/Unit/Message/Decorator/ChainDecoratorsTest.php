@@ -1,17 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Decorator;
 
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Clock\UniversalSystemClock;
-use Chronhub\Foundation\Message\Decorator\ChainDecorators;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use Chronhub\Foundation\Message\Decorator\MarkEventId;
 use Chronhub\Foundation\Message\Decorator\MarkEventTime;
 use Chronhub\Foundation\Message\Decorator\MarkEventType;
-use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Message\Decorator\ChainDecorators;
 
 final class ChainDecoratorsTest extends TestCaseWithProphecy
 {
@@ -23,7 +24,7 @@ final class ChainDecoratorsTest extends TestCaseWithProphecy
         $decorators = [
             new MarkEventId(),
             new MarkEventTime(new UniversalSystemClock()),
-            new MarkEventType()
+            new MarkEventType(),
         ];
 
         $chain = new ChainDecorators(...$decorators);

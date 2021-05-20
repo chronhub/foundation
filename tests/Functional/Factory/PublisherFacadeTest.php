@@ -1,27 +1,28 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional\Factory;
 
+use RuntimeException;
+use React\Promise\Deferred;
+use React\Promise\PromiseInterface;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Reporter\ReportCommand;
-use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
+use Chronhub\Foundation\Support\Facade\Publish;
+use Chronhub\Foundation\Tests\Double\SomeEvent;
+use Chronhub\Foundation\Tests\Double\SomeQuery;
+use Illuminate\Contracts\Foundation\Application;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Tests\Double\AnotherCommand;
+use Chronhub\Foundation\Support\Traits\HandlePromise;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
 use Chronhub\Foundation\Reporter\Subscribers\HandleCommand;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
-use Chronhub\Foundation\Support\Facade\Publish;
-use Chronhub\Foundation\Support\Traits\HandlePromise;
-use Chronhub\Foundation\Tests\Double\AnotherCommand;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\Double\SomeEvent;
-use Chronhub\Foundation\Tests\Double\SomeQuery;
-use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
-use Illuminate\Contracts\Foundation\Application;
-use React\Promise\Deferred;
-use React\Promise\PromiseInterface;
-use RuntimeException;
+use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
 
 final class PublisherFacadeTest extends OrchestraWithDefaultConfig
 {
@@ -45,7 +46,7 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.command.default.map', [
             'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                 $pastCommand = $command;
-            }
+            },
         ]);
 
         Publish::command(SomeCommand::fromContent(['name' => 'steph']));
@@ -68,7 +69,6 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
             'another-command' => function (AnotherCommand $command) use (&$pastAnotherCommand): void {
                 $pastAnotherCommand = $command;
             },
-
         ]);
 
         $sub = new CallableMessageSubscriber(
@@ -112,9 +112,9 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
                 'map'        => [
                     'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                         $pastCommand = $command;
-                    }
-                ]
-            ]
+                    },
+                ],
+            ],
         ];
 
         $this->app['config']->set('reporter.reporting.command', $config);
@@ -134,7 +134,7 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.event.default.map', [
             'some-event' => function (SomeEvent $event) use (&$pastEvent): void {
                 $pastEvent = $event;
-            }
+            },
         ]);
 
         Publish::event(SomeEvent::fromContent(['name' => 'steph']));
@@ -153,7 +153,7 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
             'some-query' => function (SomeQuery $query, Deferred $promise) use (&$pastQuery): void {
                 $pastQuery = $query;
                 $promise->resolve($query->toContent());
-            }
+            },
         ]);
 
         $result = Publish::query(SomeQuery::fromContent(['name' => 'steph']));
@@ -174,7 +174,7 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
             'some-query' => function (SomeQuery $query, Deferred $promise) use (&$pastQuery): void {
                 $pastQuery = $query;
                 $promise->resolve($query->toContent());
-            }
+            },
         ]);
 
         $result = Publish::queryHandled(SomeQuery::fromContent(['name' => 'steph']));
@@ -195,7 +195,7 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.query.default.map', [
             'some-query' => function (): void {
                 throw new RuntimeException('failed');
-            }
+            },
         ]);
 
         Publish::withRaisePromiseException(true)->queryHandled(SomeQuery::fromContent(['name' => 'steph']));
@@ -209,7 +209,7 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.query.default.map', [
             'some-query' => function (): void {
                 throw new RuntimeException('failed');
-            }
+            },
         ]);
 
         $publisher = Publish::withRaisePromiseException(false);
@@ -238,7 +238,7 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.command.default.map', [
             'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                 $pastCommand = $command;
-            }
+            },
         ]);
 
         Publish::withSubscribers($updateNameContent)->command(SomeCommand::fromContent(['name' => 'steph']));
@@ -259,14 +259,14 @@ final class PublisherFacadeTest extends OrchestraWithDefaultConfig
                 );
             }, 1);
 
-        $this->app->bind('updateNameContent', fn(): MessageSubscriber => $updateNameContent);
+        $this->app->bind('updateNameContent', fn (): MessageSubscriber => $updateNameContent);
 
         $pastCommand = null;
 
         $this->app['config']->set('reporter.reporting.command.default.map', [
             'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                 $pastCommand = $command;
-            }
+            },
         ]);
 
         Publish::withSubscribers('updateNameContent')->command(SomeCommand::fromContent(['name' => 'steph']));

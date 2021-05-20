@@ -1,30 +1,31 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Functional;
 
-use Chronhub\Foundation\Exception\MessageNotHandled;
-use Chronhub\Foundation\Message\Decorator\MarkAsync;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\ReportCommand;
-use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
-use Chronhub\Foundation\Reporter\Subscribers\HandleCommand;
-use Chronhub\Foundation\Support\Contracts\Clock\Clock;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
-use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
-use Chronhub\Foundation\Support\Facade\Report;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\Double\SomeCommandHandler;
-use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
-use Chronhub\Foundation\Tests\Spy\ResetExceptionSpySubscriber;
 use Generator;
-use Illuminate\Contracts\Foundation\Application;
+use Throwable;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Throwable;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Support\Facade\Report;
+use Chronhub\Foundation\Reporter\ReportCommand;
+use Illuminate\Contracts\Foundation\Application;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Exception\MessageNotHandled;
+use Chronhub\Foundation\Message\Decorator\MarkAsync;
+use Chronhub\Foundation\Support\Contracts\Clock\Clock;
+use Chronhub\Foundation\Tests\Double\SomeCommandHandler;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
+use Chronhub\Foundation\Reporter\Subscribers\HandleCommand;
+use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Tests\Spy\ResetExceptionSpySubscriber;
+use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
+use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
+use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
 
 final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
 {
@@ -39,7 +40,7 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.command.default.map', [
             'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                 $pastCommand = $command;
-            }
+            },
         ]);
 
         Report::command()->publish($message);
@@ -64,12 +65,12 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.command.default.map', [
             'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                 $pastCommand = $command;
-            }
+            },
         ]);
 
         $command = [
             'headers' => [Header::EVENT_TYPE => SomeCommand::class],
-            'content' => ['name' => 'steph']
+            'content' => ['name' => 'steph'],
         ];
 
         Report::command()->publish($command);
@@ -107,9 +108,9 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
                 'map'        => [
                     'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                         $pastCommand = $command;
-                    }
-                ]
-            ]
+                    },
+                ],
+            ],
         ];
 
         $this->app['config']->set('reporter.reporting.command', $defaultConfig);
@@ -118,7 +119,7 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
 
         $resetException = new ResetExceptionSpySubscriber(
             Reporter::FINALIZE_EVENT,
-            fn(ContextualMessage $context, Throwable $exception): bool => $exception instanceof MessageNotHandled,
+            fn (ContextualMessage $context, Throwable $exception): bool => $exception instanceof MessageNotHandled,
             -10000
         );
 
@@ -140,7 +141,7 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $this->assertFalse($handler->isHandled());
 
         $this->app['config']->set('reporter.reporting.command.default.map', [
-            'some-command' => $handler
+            'some-command' => $handler,
         ]);
 
         Report::command()->publish($message);
@@ -163,7 +164,7 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.command.default.map', [
             'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                 $pastCommand = $command;
-            }
+            },
         ]);
 
         $headers = [
@@ -194,7 +195,7 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         $this->app['config']->set('reporter.reporting.command.default.map', [
             'some-command' => function (SomeCommand $command) use (&$pastCommand): void {
                 $pastCommand = $command;
-            }
+            },
         ]);
 
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']));
@@ -223,8 +224,8 @@ final class ItDispatchCommandTest extends OrchestraWithDefaultConfig
         yield [
             [
                 'headers' => [Header::EVENT_TYPE => SomeCommand::class],
-                'content' => ['name' => 'steph']
-            ]
+                'content' => ['name' => 'steph'],
+            ],
         ];
     }
 }

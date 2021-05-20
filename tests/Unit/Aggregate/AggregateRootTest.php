@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Aggregate;
 
-use Chronhub\Foundation\Aggregate\GenericAggregateId;
-use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
-use Chronhub\Foundation\Tests\Double\SomeAggregateChanged;
-use Chronhub\Foundation\Tests\Double\SomeAggregateRoot;
-use Chronhub\Foundation\Tests\Double\SomeAggregateRootWithApply;
-use Chronhub\Foundation\Tests\TestCase;
 use Generator;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Aggregate\GenericAggregateId;
+use Chronhub\Foundation\Tests\Double\SomeAggregateRoot;
+use Chronhub\Foundation\Tests\Double\SomeAggregateChanged;
+use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
+use Chronhub\Foundation\Tests\Double\SomeAggregateRootWithApply;
 
 final class AggregateRootTest extends TestCase
 {
@@ -22,7 +23,7 @@ final class AggregateRootTest extends TestCase
         $aggregateRoot = SomeAggregateRoot::create($aggregateId, []);
 
         $this->assertEquals(0, $aggregateRoot->version());
-        $this->assertCount(0,$aggregateRoot->releaseEvents());
+        $this->assertCount(0, $aggregateRoot->releaseEvents());
         $this->assertEquals(0, $aggregateRoot->countEventsToRelease());
         $this->assertEquals($aggregateId, $aggregateRoot->aggregateId());
     }
@@ -108,10 +109,10 @@ final class AggregateRootTest extends TestCase
     {
         $return = $limit;
 
-        while ($limit !== 0) {
+        while (0 !== $limit) {
             yield SomeAggregateChanged::withData($aggregateId, []);
 
-            $limit--;
+            --$limit;
         }
 
         return $return;

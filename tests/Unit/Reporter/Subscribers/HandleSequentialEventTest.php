@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
-use Chronhub\Foundation\Exception\CollectedExceptionMessage;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Subscribers\HandleSequentialEvent;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Tests\Double\SomeEvent;
-use Chronhub\Foundation\Tests\TestCase;
-use Chronhub\Foundation\Tracker\TrackMessage;
 use RuntimeException;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Chronhub\Foundation\Tests\Double\SomeEvent;
+use Chronhub\Foundation\Exception\CollectedExceptionMessage;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Reporter\Subscribers\HandleSequentialEvent;
 
 final class HandleSequentialEventTest extends TestCase
 {
@@ -74,7 +75,6 @@ final class HandleSequentialEventTest extends TestCase
         try {
             $tracker->fire($context);
         } catch (CollectedExceptionMessage $exception) {
-            //
         }
 
         $this->assertFalse($context->isMessageHandled());

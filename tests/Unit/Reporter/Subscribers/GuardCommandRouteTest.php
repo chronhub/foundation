@@ -1,19 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
-use Chronhub\Foundation\Exception\UnauthorizedException;
+use Prophecy\Prophecy\ObjectProphecy;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Subscribers\GuardCommandRoute;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
-use Chronhub\Foundation\Support\Contracts\Reporter\AuthorizeMessage;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Tracker\TrackMessage;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Chronhub\Foundation\Tracker\TrackMessage;
-use Prophecy\Prophecy\ObjectProphecy;
+use Chronhub\Foundation\Exception\UnauthorizedException;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Reporter\Subscribers\GuardCommandRoute;
+use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
+use Chronhub\Foundation\Support\Contracts\Reporter\AuthorizeMessage;
 
 final class GuardCommandRouteTest extends TestCaseWithProphecy
 {

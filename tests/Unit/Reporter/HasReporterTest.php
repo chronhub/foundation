@@ -1,19 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter;
 
-use Chronhub\Foundation\Exception\MessageDispatchFailed;
-use Chronhub\Foundation\Exception\MessageNotHandled;
+use RuntimeException;
+use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Reporter\HasReporter;
-use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Exception\MessageNotHandled;
+use Chronhub\Foundation\Exception\MessageDispatchFailed;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\TestCase;
-use RuntimeException;
+use Chronhub\Foundation\Reporter\Subscribers\CallableMessageSubscriber;
 
 final class HasReporterTest extends TestCase
 {
@@ -70,7 +71,7 @@ final class HasReporterTest extends TestCase
     /**
      * @test
      */
-    public function it_raise_wrapped_exception_caught_during_dispatching_message()
+    public function it_raise_wrapped_exception_caught_during_dispatching_message(): void
     {
         $message = new Message(
             SomeCommand::fromContent(['name' => 'steph']),
@@ -127,7 +128,7 @@ final class HasReporterTest extends TestCase
         return new class('anonymous_class') implements Reporter {
             use HasReporter;
 
-            public function publish(object|array $message)
+            public function publish(object|array $message): void
             {
                 $context = $this->tracker->newContext(self::DISPATCH_EVENT);
 

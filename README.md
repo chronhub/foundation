@@ -17,6 +17,6 @@ Common classes
 
 ## Tests
 
-![Tests](https://github.com/chronhub/foundation/workflows/Tests/badge.svg)
+![Tests](https://github.com/chronhub/foundation/workflows/tests/badge.svg)
 
 run 'vendor/bin/phpunit' or 'composer test'

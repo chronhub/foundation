@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests;
@@ -13,7 +14,6 @@ class OrchestraWithDefaultConfig extends TestCaseWithOrchestra
         $config = [
             'clock'     => \Chronhub\Foundation\Clock\UniversalSystemClock::class,
             'messaging' => [
-
                 'factory'     => \Chronhub\Foundation\Message\Factory\GenericMessageFactory::class,
                 'serializer'  => \Chronhub\Foundation\Message\Serializer\GenericMessageSerializer::class,
                 'alias'       => \Chronhub\Foundation\Message\Alias\AliasFromInflector::class,
@@ -32,10 +32,10 @@ class OrchestraWithDefaultConfig extends TestCaseWithOrchestra
                     'async'       => [
                         'service' => \Chronhub\Foundation\Message\Producer\AsyncAllMessageProducer::class,
                         'queue'   => \Chronhub\Foundation\Message\Producer\IlluminateQueue::class,
-                    ]
+                    ],
                 ],
                 'subscribers' => [
-                    \Chronhub\Foundation\Reporter\Subscribers\MakeMessage::class
+                    \Chronhub\Foundation\Reporter\Subscribers\MakeMessage::class,
                 ],
             ],
             'reporting' => [
@@ -52,8 +52,8 @@ class OrchestraWithDefaultConfig extends TestCaseWithOrchestra
                             ],
                             'producer'    => 'default',
                         ],
-                        'map'            => []
-                    ]
+                        'map'            => [],
+                    ],
                 ],
                 'event'   => [
                     'default' => [
@@ -68,8 +68,8 @@ class OrchestraWithDefaultConfig extends TestCaseWithOrchestra
                             ],
                             'producer'    => 'default',
                         ],
-                        'map'            => []
-                    ]
+                        'map'            => [],
+                    ],
                 ],
                 'query'   => [
                     'default' => [
@@ -84,9 +84,9 @@ class OrchestraWithDefaultConfig extends TestCaseWithOrchestra
                             ],
                             'producer'    => 'default',
                         ],
-                        'map'            => []
-                    ]
-                ]
+                        'map'            => [],
+                    ],
+                ],
             ],
         ];
 

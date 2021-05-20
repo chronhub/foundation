@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Decorator;
 
-use Chronhub\Foundation\Message\Decorator\MarkEventType;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Message\Decorator\MarkEventType;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
 
 final class MarkEventTypeTest extends TestCase
 {
@@ -31,8 +32,8 @@ final class MarkEventTypeTest extends TestCase
      */
     public function it_does_not_override_event_type_header_if_already_exists(): void
     {
-        $message = new Message(SomeCommand::fromContent(['name' => 'steph']),[
-            Header::EVENT_TYPE => 'some-command'
+        $message = new Message(SomeCommand::fromContent(['name' => 'steph']), [
+            Header::EVENT_TYPE => 'some-command',
         ]);
 
         $decorator = new MarkEventType();

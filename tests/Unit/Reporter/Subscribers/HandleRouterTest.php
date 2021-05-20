@@ -1,19 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
+use stdClass;
+use Prophecy\Prophecy\ObjectProphecy;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Subscribers\HandleRouter;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Support\Contracts\Reporter\Router;
+use Chronhub\Foundation\Tracker\TrackMessage;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Chronhub\Foundation\Tracker\TrackMessage;
-use Prophecy\Prophecy\ObjectProphecy;
-use stdClass;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Reporter\Subscribers\HandleRouter;
+use Chronhub\Foundation\Support\Contracts\Reporter\Router;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Message\MessageProducer;
 
 final class HandleRouterTest extends TestCaseWithProphecy
 {
@@ -38,7 +39,7 @@ final class HandleRouterTest extends TestCaseWithProphecy
     public function it_handle_message_sync(): void
     {
         $this->producer->isSync($this->message)->willReturn(true)->shouldBeCalled();
-        $this->router->route($this->message)->willReturn([function () {}])->shouldBeCalled();
+        $this->router->route($this->message)->willReturn([function (): void {}])->shouldBeCalled();
 
         $context = $this->tracker->newContext(Reporter::DISPATCH_EVENT);
         $context->withMessage($this->message);
@@ -49,7 +50,7 @@ final class HandleRouterTest extends TestCaseWithProphecy
         $this->tracker->fire($context);
 
         $this->assertEquals($this->message, $context->message());
-        $this->assertEquals([function () {}], iterator_to_array($context->messageHandlers()));
+        $this->assertEquals([function (): void {}], iterator_to_array($context->messageHandlers()));
     }
 
     /**

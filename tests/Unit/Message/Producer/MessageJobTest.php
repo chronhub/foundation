@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Producer;
 
+use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Contracts\Container\Container;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
 use Chronhub\Foundation\Message\Producer\MessageJob;
 use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Queue\Queue;
 
 final class MessageJobTest extends TestCaseWithProphecy
 {
@@ -48,7 +49,7 @@ final class MessageJobTest extends TestCaseWithProphecy
     {
         $payload = [
             'headers' => [Header::EVENT_TYPE => 'some_name'],
-            'payload' => ['foo' => 'bar']
+            'payload' => ['foo' => 'bar'],
         ];
 
         $job = new MessageJob($payload, 'bus_name', null, null);

@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Factory;
 
-use Chronhub\Foundation\Message\Factory\GenericMessageFactory;
-use Chronhub\Foundation\Message\Factory\MessageNameFactory;
+use stdClass;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use stdClass;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Message\Factory\MessageNameFactory;
+use Chronhub\Foundation\Message\Factory\GenericMessageFactory;
+use Chronhub\Foundation\Support\Contracts\Message\MessageSerializer;
 
 /** @coversDefaultClass \Chronhub\Foundation\Message\Factory\MessageNameFactory */
 final class MessageNameFactoryTest extends TestCaseWithProphecy
@@ -26,7 +27,7 @@ final class MessageNameFactoryTest extends TestCaseWithProphecy
         $serializer->unserializeContent(
             [
                 'headers' => [Header::EVENT_ID => '123', Header::EVENT_TYPE => SomeCommand::class],
-                'content' => ['name' => 'steph']
+                'content' => ['name' => 'steph'],
             ]
         )->willYield([$fakeMessage])->shouldBeCalled();
 
@@ -55,7 +56,7 @@ final class MessageNameFactoryTest extends TestCaseWithProphecy
         $serializer->unserializeContent(
             [
                 'headers' => [Header::EVENT_TYPE => SomeCommand::class],
-                'content' => []
+                'content' => [],
             ]
         )->willYield([$fakeMessage])->shouldBeCalled();
 

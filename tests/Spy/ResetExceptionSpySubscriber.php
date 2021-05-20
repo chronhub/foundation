@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Spy;
 
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
 use Chronhub\Foundation\Support\Contracts\Tracker\ContextualMessage;
 use Chronhub\Foundation\Support\Contracts\Tracker\MessageSubscriber;
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
 
 final class ResetExceptionSpySubscriber implements MessageSubscriber
 {

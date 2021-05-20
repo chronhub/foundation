@@ -1,25 +1,26 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
-use Chronhub\Foundation\Exception\ReportFailed;
-use Chronhub\Foundation\Exception\ValidationMessageFailed;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Subscribers\ValidateCommand;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
-use Chronhub\Foundation\Tests\Double\SomeCommand;
-use Chronhub\Foundation\Tests\Double\SomeCommandToPreValidate;
-use Chronhub\Foundation\Tests\Double\SomeCommandToValidate;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Chronhub\Foundation\Tracker\TrackMessage;
-use Illuminate\Contracts\Validation\Factory;
-use Illuminate\Contracts\Validation\Validator;
+use stdClass;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use stdClass;
+use Chronhub\Foundation\Message\Message;
+use Illuminate\Contracts\Validation\Factory;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Illuminate\Contracts\Validation\Validator;
+use Chronhub\Foundation\Exception\ReportFailed;
+use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Exception\ValidationMessageFailed;
+use Chronhub\Foundation\Tests\Double\SomeCommandToValidate;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Reporter\Subscribers\ValidateCommand;
+use Chronhub\Foundation\Tests\Double\SomeCommandToPreValidate;
+use Chronhub\Foundation\Support\Contracts\Tracker\MessageTracker;
 
 /** @coversDefaultClass \Chronhub\Foundation\Reporter\Subscribers\ValidateCommand */
 final class ValidateCommandTest extends TestCaseWithProphecy

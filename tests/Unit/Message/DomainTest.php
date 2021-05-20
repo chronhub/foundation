@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message;
 
-use Chronhub\Foundation\Tests\Double\SomeDomain;
 use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Tests\Double\SomeDomain;
 
 /** @coversDefaultClass \Chronhub\Foundation\Message\Domain */
 final class DomainTest extends TestCase

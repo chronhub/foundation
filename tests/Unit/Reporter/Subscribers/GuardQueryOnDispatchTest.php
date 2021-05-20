@@ -1,22 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
-use Chronhub\Foundation\Exception\UnauthorizedException;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Subscribers\GuardQueryOnDispatch;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
-use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
-use Chronhub\Foundation\Support\Contracts\Reporter\AuthorizeMessage;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Support\Traits\HandlePromise;
-use Chronhub\Foundation\Tests\Double\SomeQuery;
-use Chronhub\Foundation\Tests\TestCaseWithProphecy;
-use Chronhub\Foundation\Tracker\TrackMessage;
-use Prophecy\Prophecy\ObjectProphecy;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
+use Prophecy\Prophecy\ObjectProphecy;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Chronhub\Foundation\Tests\Double\SomeQuery;
+use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Support\Traits\HandlePromise;
+use Chronhub\Foundation\Exception\UnauthorizedException;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
+use Chronhub\Foundation\Support\Contracts\Message\MessageAlias;
+use Chronhub\Foundation\Reporter\Subscribers\GuardQueryOnDispatch;
+use Chronhub\Foundation\Support\Contracts\Reporter\AuthorizeMessage;
 
 /** @coversDefaultClass \Chronhub\Foundation\Reporter\Subscribers\GuardQueryOnDispatch */
 final class GuardQueryOnDispatchTest extends TestCaseWithProphecy

@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Producer;
 
+use stdClass;
+use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Message\Message;
 use Chronhub\Foundation\Message\Producer\SyncMessageProducer;
-use Chronhub\Foundation\Tests\TestCase;
-use stdClass;
 
 final class SyncMessageProducerTest extends TestCase
 {

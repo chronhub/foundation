@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Double;
 
+use RuntimeException;
 use Chronhub\Foundation\Aggregate\AggregateChanged;
 use Chronhub\Foundation\Aggregate\HasAggregateRoot;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateId;
 use Chronhub\Foundation\Support\Contracts\Aggregate\AggregateRoot;
-use RuntimeException;
 
 final class SomeAggregateRootWithApply implements AggregateRoot
 {
@@ -20,7 +21,7 @@ final class SomeAggregateRootWithApply implements AggregateRoot
         $aggregateRoot = new static($aggregateId);
 
         foreach ($events as $event) {
-            if (!$event instanceof AggregateChanged) {
+            if ( ! $event instanceof AggregateChanged) {
                 $exceptionMessage = sprintf(
                     'Current test class %s only support %s event type',
                     SomeAggregateRootWithApply::class, AggregateChanged::class

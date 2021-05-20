@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Message\Decorator;
 
-use Chronhub\Foundation\Clock\UniversalSystemClock;
-use Chronhub\Foundation\Message\Decorator\MarkEventTime;
 use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
-use Chronhub\Foundation\Support\Contracts\Message\Header;
 use Chronhub\Foundation\Tests\Double\SomeCommand;
+use Chronhub\Foundation\Clock\UniversalSystemClock;
 use Chronhub\Foundation\Tests\TestCaseWithProphecy;
+use Chronhub\Foundation\Message\Decorator\MarkEventTime;
+use Chronhub\Foundation\Support\Contracts\Message\Header;
+use Chronhub\Foundation\Support\Contracts\Clock\PointInTime;
 
 final class MarkEventTimeTest extends TestCaseWithProphecy
 {
@@ -39,7 +40,7 @@ final class MarkEventTimeTest extends TestCaseWithProphecy
         $now = $clock->fromNow();
 
         $message = new Message(SomeCommand::fromContent(['name' => 'steph']), [
-            Header::EVENT_TIME => $now
+            Header::EVENT_TIME => $now,
         ]);
 
         $decorator = new MarkEventTime($clock);

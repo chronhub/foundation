@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Support\Traits;
 
+use React\Promise\Deferred;
+use Chronhub\Foundation\Tests\TestCase;
 use Chronhub\Foundation\Exception\RuntimeException;
 use Chronhub\Foundation\Support\Traits\HandlePromise;
-use Chronhub\Foundation\Tests\TestCase;
-use React\Promise\Deferred;
 
 final class HandlePromiseTest extends TestCase
 {

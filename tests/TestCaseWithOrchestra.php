@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests;
 
-use Chronhub\Foundation\Reporter\Services\FoundationServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Chronhub\Foundation\Reporter\Services\FoundationServiceProvider;
 
 class TestCaseWithOrchestra extends OrchestraTestCase
 {

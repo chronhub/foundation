@@ -1,18 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chronhub\Foundation\Tests\Unit\Reporter\Subscribers;
 
-use Chronhub\Foundation\Exception\RuntimeException;
-use Chronhub\Foundation\Message\Message;
-use Chronhub\Foundation\Reporter\Subscribers\HandleQuery;
-use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
-use Chronhub\Foundation\Tests\Double\SomeQuery;
-use Chronhub\Foundation\Tests\TestCase;
-use Chronhub\Foundation\Tracker\TrackMessage;
+use Throwable;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
-use Throwable;
+use Chronhub\Foundation\Tests\TestCase;
+use Chronhub\Foundation\Message\Message;
+use Chronhub\Foundation\Tracker\TrackMessage;
+use Chronhub\Foundation\Tests\Double\SomeQuery;
+use Chronhub\Foundation\Exception\RuntimeException;
+use Chronhub\Foundation\Reporter\Subscribers\HandleQuery;
+use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 
 final class HandleQueryTest extends TestCase
 {
@@ -152,16 +153,16 @@ final class HandleQueryTest extends TestCase
         $result = null;
 
         $promise->then(
-            static function ($data) use (&$result) {
+            static function ($data) use (&$result): void {
                 $result = $data;
             },
-            static function ($exc) use (&$exception) {
+            static function ($exc) use (&$exception): void {
                 $exception = $exc;
             }
         );
 
         if ($exception instanceof Throwable) {
-            if (!$raiseException) {
+            if ( ! $raiseException) {
                 return $exception;
             }
 
