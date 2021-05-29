@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'clock' => \Chronhub\Foundation\Clock\UniversalSystemClock::class,
 
     'messaging' => [
-
         'factory'    => \Chronhub\Foundation\Message\Factory\GenericMessageFactory::class,
         'serializer' => \Chronhub\Foundation\Message\Serializer\GenericMessageSerializer::class,
         'alias'      => \Chronhub\Foundation\Message\Alias\AliasFromInflector::class,
@@ -31,11 +32,11 @@ return [
                 // or service id
                 // or array['connection' => 'my_con , 'queue' => 'my_queue' ]
                 'queue'   => \Chronhub\Foundation\Message\Producer\IlluminateQueue::class,
-            ]
+            ],
         ],
 
         'subscribers' => [
-            \Chronhub\Foundation\Reporter\Subscribers\MakeMessage::class
+            \Chronhub\Foundation\Reporter\Subscribers\MakeMessage::class,
         ],
     ],
 ];

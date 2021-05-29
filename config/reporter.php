@@ -1,13 +1,13 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     'reporting' => [
-        /**
+        /*
          * Reporter command
          */
         'command' => [
-
             'default' => [
                 'service_id'     => null,
                 'concrete'       => null,
@@ -23,15 +23,14 @@ return [
                     ],
                     'producer'    => 'default',
                 ],
-                'map'            => []
-            ]
+                'map'            => [],
+            ],
         ],
 
-        /**
+        /*
          * Reporter event
          */
         'event'   => [
-
             'default' => [
                 'service_id'     => null,
                 'concrete'       => null,
@@ -46,15 +45,14 @@ return [
                     ],
                     'producer'    => 'default',
                 ],
-                'map'            => []
-            ]
+                'map'            => [],
+            ],
         ],
 
-        /**
+        /*
          * Reporter query
          */
         'query'   => [
-
             'default' => [
                 'service_id'     => null,
                 'concrete'       => null,
@@ -67,8 +65,8 @@ return [
                     ],
                     'producer'    => 'default',
                 ],
-                'map'            => []
-            ]
-        ]
+                'map'            => [],
+            ],
+        ],
     ],
 ];
