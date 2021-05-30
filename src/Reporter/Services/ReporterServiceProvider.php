@@ -9,7 +9,6 @@ use Chronhub\Foundation\Support\Publisher;
 use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Support\Facade\Publish;
 use Illuminate\Contracts\Foundation\Application;
-use Chronhub\Foundation\Clock\UniversalSystemClock;
 use Chronhub\Foundation\Support\Facade\AliasMessage;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Chronhub\Foundation\Support\Contracts\Clock\Clock;
@@ -34,7 +33,7 @@ class ReporterServiceProvider extends ServiceProvider implements DeferrableProvi
 
         $config = config('reporter');
 
-        $this->app->bind(Clock::class, UniversalSystemClock::class);
+        $this->app->bind(Clock::class, $config['clock']);
 
         $message = $config['messaging'];
 

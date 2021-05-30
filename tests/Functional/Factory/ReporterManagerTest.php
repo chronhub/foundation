@@ -9,12 +9,12 @@ use Chronhub\Foundation\Support\Facade\Report;
 use Chronhub\Foundation\Exception\ReportFailed;
 use Chronhub\Foundation\Reporter\ReportCommand;
 use Illuminate\Contracts\Foundation\Application;
-use Chronhub\Foundation\Tests\TestCaseWithOrchestra;
+use Chronhub\Foundation\Tests\OrchestraWithDefaultConfig;
 use Chronhub\Foundation\Support\Contracts\Message\Messaging;
 use Chronhub\Foundation\Support\Contracts\Reporter\Reporter;
 use Chronhub\Foundation\Support\Contracts\Reporter\ReporterManager;
 
-final class ReporterManagerTest extends TestCaseWithOrchestra
+final class ReporterManagerTest extends OrchestraWithDefaultConfig
 {
     /**
      * @test
@@ -95,9 +95,9 @@ final class ReporterManagerTest extends TestCaseWithOrchestra
     {
         $config = [
             'reporter_command' => [
-                'service_id'     => 'reporter_command',
-                'concrete'       => stdClass::class,
-                'map'            => [],
+                'service_id' => 'reporter_command',
+                'concrete'   => stdClass::class,
+                'map'        => [],
             ],
         ];
 
