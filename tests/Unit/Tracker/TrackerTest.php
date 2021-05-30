@@ -40,13 +40,44 @@ final class TrackerTest extends TestCase
     /**
      * @test
      */
+    public function it_subscribe_once_to_event_and_forget_listener(): void
+    {
+        $context = new ContextualMessage('dispatch');
+
+        $tracker = $this->newTrackerInstance($context);
+
+        $this->assertEmpty($tracker->getListeners());
+
+        $called = 0;
+        $callback = function () use (&$called): void {
+            ++$called;
+        };
+
+        $tracker->listenOnce('dispatch', $callback, 1);
+
+        $this->assertCount(1, $tracker->getListeners());
+
+        $tracker->fire($context);
+
+        $this->assertEquals(1, $called);
+
+        $this->assertCount(0, $tracker->getListeners());
+
+        $tracker->fire($context);
+
+        $this->assertEquals(1, $called);
+    }
+
+    /**
+     * @test
+     */
     public function it_forget_event(): void
     {
         $context = new ContextualMessage('dispatch');
 
         $tracker = $this->newTrackerInstance($context);
 
-        $callback = function (): void {};
+        $callback = function (): void { };
 
         $anotherSubscriber = $tracker->listen('dispatch', $callback, 2);
         $tracker->listen('dispatch', $callback, 1);
