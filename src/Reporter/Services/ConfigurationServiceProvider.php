@@ -20,16 +20,21 @@ final class ConfigurationServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                $this->reporterPath => config_path('reporter.php'),
-                $this->messagePath  => config_path('message.php'),
-            ]);
+            $this->publishes([$this->reporterPath => config_path('reporter.php')]);
+            $this->publishes([$this->messagePath => config_path('message.php')]);
         }
     }
 
     public function register(): void
     {
-        $this->mergeConfigFrom($this->messagePath, 'reporter');
-        $this->mergeConfigFrom($this->reporterPath, 'reporter');
+        $packageConfig = array_merge(
+            require $this->messagePath,
+            require $this->reporterPath,
+        );
+
+        $message = $this->app['config']->get('message', []);
+        $reporter = $this->app['config']->get('reporter', []);
+
+        $this->app['config']->set('reporter', array_merge($packageConfig, $message, $reporter));
     }
 }
