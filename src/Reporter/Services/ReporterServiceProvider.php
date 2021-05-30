@@ -38,10 +38,10 @@ class ReporterServiceProvider extends ServiceProvider implements DeferrableProvi
 
         $message = $config['messaging'];
 
-        $this->app->bindIf(MessageFactory::class, $message['factory']);
-        $this->app->bindIf(MessageSerializer::class, $message['serializer']);
+        $this->app->bind(MessageFactory::class, $message['factory']);
+        $this->app->bind(MessageSerializer::class, $message['serializer']);
 
-        $this->app->bindIf(MessageAlias::class, $message['alias']);
+        $this->app->bind(MessageAlias::class, $message['alias']);
         $this->app->alias(MessageAlias::class, AliasMessage::SERVICE_NAME);
     }
 

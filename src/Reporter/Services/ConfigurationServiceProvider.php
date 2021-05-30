@@ -28,13 +28,13 @@ final class ConfigurationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $packageConfig = array_merge(
-            require $this->messagePath,
             require $this->reporterPath,
+            require $this->messagePath,
         );
 
         $message = $this->app['config']->get('message', []);
         $reporter = $this->app['config']->get('reporter', []);
 
-        $this->app['config']->set('reporter', array_merge($packageConfig, $message, $reporter));
+        $this->app['config']->set('reporter', array_merge($reporter, $message, $packageConfig));
     }
 }
