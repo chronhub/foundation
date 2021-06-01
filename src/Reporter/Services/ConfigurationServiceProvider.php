@@ -25,6 +25,6 @@ final class ConfigurationServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(config_path('reporter.php'), 'reporter');
+        $this->mergeConfigFrom($this->reporterPath, 'reporter');
     }
 }
